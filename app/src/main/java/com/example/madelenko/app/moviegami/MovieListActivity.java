@@ -6,6 +6,9 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,15 +24,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class MovieListActivity extends AppCompatActivity implements FetchMoviesService.ResultProcessor {
 
-    private static final String RECEIVER = "receiver key";
-    private static final int POPULAR = 0;
-    private static final int HIGHEST_RATED = 1;
-    private static final String QUERY_TYPE = "query type";
+public class MovieListActivity extends AppCompatActivity {
 
-    static MovieListActivity mInstance;
+    public static final String POPULAR = "popular";
+    public static final String TOP = "top";
+    public static final String FAVORITES = "favorites";
+    public static final String MOVIE = "movie";
+    public static final String QUERY_TYPE = "query type";
+
     private RecyclerView mRecyclerView;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -37,20 +43,19 @@ public class MovieListActivity extends AppCompatActivity implements FetchMoviesS
      */
     private boolean mTwoPane;
 
+    public boolean isTwoPaneMode() {
+        return mTwoPane;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mInstance = MovieListActivity.this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
-
-
-        if (savedInstanceState == null) {
-            requestMovies();
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        setupTabLayout();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,10 +66,6 @@ public class MovieListActivity extends AppCompatActivity implements FetchMoviesS
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.movie_list);
-        assert mRecyclerView != null;
-        setupRecyclerView(mRecyclerView);
-
         if (findViewById(R.id.movie_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -72,28 +73,24 @@ public class MovieListActivity extends AppCompatActivity implements FetchMoviesS
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new MovieAdapter(this));
-    }
+    private void setupTabLayout() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-    private void requestMovies() {
-        Intent intent = new Intent(this, FetchMoviesService.class);
-        intent.putExtra(QUERY_TYPE, POPULAR);
-        startService(intent);
-    }
+        tabLayout.addTab(tabLayout.newTab().setText(POPULAR));
+        tabLayout.addTab(tabLayout.newTab().setText(TOP));
+        tabLayout.addTab(tabLayout.newTab().setText(FAVORITES));
 
-    @Override
-    public void processResult(Movie[] movies) {
-        ((MovieAdapter) mRecyclerView.getAdapter()).setMovies(movies);
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mRecyclerView.getAdapter().notifyDataSetChanged();
-            }
-        });
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i=0;i<3;i++) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(QUERY_TYPE, i);
+            fragments.add(ListFragment
+                    .instantiate(this,ListFragment.class.getName(),bundle));
+        }
+        viewPager.setAdapter(new MoviePagerAdapter(getSupportFragmentManager(), fragments));
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

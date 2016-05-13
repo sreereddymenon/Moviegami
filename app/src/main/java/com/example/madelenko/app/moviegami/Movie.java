@@ -2,9 +2,12 @@ package com.example.madelenko.app.moviegami;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 final class Movie implements Parcelable{
@@ -15,8 +18,8 @@ final class Movie implements Parcelable{
     private String synopsis;
     private double userRating;
     private String releaseDate;
-    private HashSet<String> trailerSet;
-    private HashSet<Pair<String,String>> reviewSet;
+    private ArrayList<String> trailerList;
+    private ArrayList<Pair<String,String>> reviewList;
 
 
     private Movie(int movieId, String originalTitle, String posterPath,
@@ -27,8 +30,8 @@ final class Movie implements Parcelable{
         this.releaseDate = releaseDate;
         this.synopsis = synopsis;
         this.userRating = userRating;
-        this.trailerSet = null;
-        this.reviewSet = null;
+        this.trailerList = null;
+        this.reviewList = null;
     }
 
     // Package-private factory method to create movies with the service
@@ -56,16 +59,16 @@ final class Movie implements Parcelable{
         return releaseDate;
     }
 
-    protected Set getReviewSet() {
-        return (HashSet) reviewSet.clone();
+    protected List getReviewList() {
+        return (ArrayList) reviewList.clone();
     }
 
     protected String getSynopsis() {
         return synopsis;
     }
 
-    protected Set getTrailerSet() {
-        return (HashSet) trailerSet.clone();
+    protected List getTrailerList() {
+        return (ArrayList) trailerList.clone();
     }
 
     protected double getUserRating() {
@@ -74,16 +77,16 @@ final class Movie implements Parcelable{
 
     //Setters
 
-    void setReviews(HashSet<Pair<String, String>> reviewSet) {
-        if (reviewSet == null) {
-            this.reviewSet = reviewSet;
+    void setReviews(ArrayList<Pair<String, String>> reviewList) {
+        if (reviewList == null) {
+            this.reviewList = reviewList;
         }
         return;
     }
 
-    void setTrailers(HashSet<String> trailerSet) {
-        if (trailerSet == null) {
-            this.trailerSet = trailerSet;
+    void setTrailers(ArrayList<String> trailerList) {
+        if (trailerList == null) {
+            this.trailerList = trailerList;
         }
         return;
     }
@@ -105,6 +108,8 @@ final class Movie implements Parcelable{
         synopsis = in.readString();
         userRating = in.readFloat();
         releaseDate = in.readString();
+        trailerList = (ArrayList<String>) loadTrailers(in);
+        reviewList = (ArrayList<Pair<String,String>>) loadReviews(in);
     }
 
     static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -132,6 +137,51 @@ final class Movie implements Parcelable{
         dest.writeString(synopsis);
         dest.writeDouble(userRating);
         dest.writeString(releaseDate);
+        writeTrailersToParcel(dest);
+        writeReviewsToParcel(dest);
+    }
+
+    private void writeTrailersToParcel(Parcel dest) {
+        if (this.trailerList != null && this.trailerList.size()>0) {
+            dest.writeStringList(trailerList);
+        }
+    }
+
+    public void writeReviewsToParcel(Parcel dest) {
+        if (this.reviewList != null && this.reviewList.size()>0) {
+
+            String[] authors= new String[] {};
+            String[] content = new String[] {};
+
+            for (int i=0;i<reviewList.size();i++) {
+                Pair<String,String> pair = reviewList.get(i);
+                authors[i] = pair.first;
+                content[i] = pair.second;
+            }
+
+            dest.writeStringArray(authors);
+            dest.writeStringArray(content);
+        }
+    }
+
+    public List<String> loadTrailers(Parcel in) {
+        List<String> result = new ArrayList<>();
+        in.readStringList(result);
+        return result;
+    }
+
+    public List<Pair<String, String>> loadReviews(Parcel in) {
+        String[] authors = new String[] {};
+        String[] content = new String[] {};
+        List<Pair<String,String>> result = new ArrayList<>();
+
+        in.readStringArray(authors);
+        in.readStringArray(content);
+
+        for (int i=0;i<authors.length;i++) {
+            result.add(new Pair<String, String>(authors[i],content[i]));
+        }
+        return result;
     }
 
 }

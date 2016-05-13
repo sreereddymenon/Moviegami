@@ -2,4 +2,6 @@
     <string name="app_name">Moviegami</string>
     <string name="title_movie_detail">Movie Detail</string>
     <string name="api_key">a2ad4268d92eb984f96945ddfda011ca</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
 </resources>

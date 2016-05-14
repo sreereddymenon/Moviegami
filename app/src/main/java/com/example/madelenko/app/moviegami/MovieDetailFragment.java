@@ -1,12 +1,15 @@
 package com.example.madelenko.app.moviegami;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -49,6 +52,7 @@ public class MovieDetailFragment extends Fragment {
         ArrayList<String> trailers = getArguments().getStringArrayList(MovieAdapter.TRAILERS_PATH);
         mMovie.setTrailers(trailers);
     }
+
 
     @Override
     public void onResume() {
@@ -129,18 +133,19 @@ public class MovieDetailFragment extends Fragment {
     }
 
     private void addTrailerToCard(final int position) {
-        TextView textView = new TextView(getContext());
-        textView.setText(mActivity.getString(R.string.trailer_text) + (position+1));
-        textView.setClickable(true);
-        textView.setOnClickListener(new View.OnClickListener() {
+        LinearLayout layout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.trailer_layout,null);
+        TextView textView = (TextView) layout.findViewById(R.id.trailer_element);
+        textView.setText(getString(R.string.trailer_text) + (position + 1));
+        layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String video = (String) mMovie.getTrailerList().get(position);
-                mPlayer.loadVideo(video);
+                mPlayer.loadVideo((String) mMovie.getTrailerList().get(position));
             }
         });
-        mLinearLayout.addView(textView);
+        mLinearLayout.addView(layout);
     }
+
+
 
 
 

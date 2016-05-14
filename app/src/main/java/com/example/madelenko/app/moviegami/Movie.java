@@ -2,8 +2,8 @@ package com.example.madelenko.app.moviegami;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.util.Pair;
 import android.util.Log;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -78,14 +78,14 @@ final class Movie implements Parcelable{
     //Setters
 
     void setReviews(ArrayList<Pair<String, String>> reviewList) {
-        if (reviewList == null) {
+        if (this.reviewList == null) {
             this.reviewList = reviewList;
         }
         return;
     }
 
     void setTrailers(ArrayList<String> trailerList) {
-        if (trailerList == null) {
+        if (this.trailerList == null) {
             this.trailerList = trailerList;
         }
         return;
@@ -99,6 +99,8 @@ final class Movie implements Parcelable{
                 '}';
     }
 
+
+
     // Implementation of Parcelable
 
     private Movie(Parcel in) {
@@ -108,8 +110,8 @@ final class Movie implements Parcelable{
         synopsis = in.readString();
         userRating = in.readFloat();
         releaseDate = in.readString();
-        trailerList = (ArrayList<String>) loadTrailers(in);
-        reviewList = (ArrayList<Pair<String,String>>) loadReviews(in);
+//        trailerList = (ArrayList<String>) loadTrailers(in);
+//        reviewList = (ArrayList<Pair<String,String>>) loadReviews(in);
     }
 
     static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -137,51 +139,51 @@ final class Movie implements Parcelable{
         dest.writeString(synopsis);
         dest.writeDouble(userRating);
         dest.writeString(releaseDate);
-        writeTrailersToParcel(dest);
-        writeReviewsToParcel(dest);
+//        writeTrailersToParcel(dest);
+//        writeReviewsToParcel(dest);
     }
 
-    private void writeTrailersToParcel(Parcel dest) {
-        if (this.trailerList != null && this.trailerList.size()>0) {
-            dest.writeStringList(trailerList);
-        }
-    }
+//    private void writeTrailersToParcel(Parcel dest) {
+//        if (this.trailerList != null && this.trailerList.size()>0) {
+//            dest.writeStringList(trailerList);
+//        }
+//    }
+//
+//    public List<String> loadTrailers(Parcel in) {
+//        List<String> result = new ArrayList<>();
+//        in.readStringList(result);
+//        return result;
+//    }
+//
+//    public void writeReviewsToParcel(Parcel dest) {
+//        if (this.reviewList != null && this.reviewList.size()>0) {
+//
+//            List<String> authors= new ArrayList<>();
+//            List<String> content = new ArrayList<>();
+//
+//            for (int i=0;i<reviewList.size();i++) {
+//                Pair<String,String> pair = reviewList.get(i);
+//                authors.add(pair.first);
+//                content.add(pair.second);
+//            }
+//
+//            dest.writeStringList(authors);
+//            dest.writeStringList(content);
+//        }
+//    }
 
-    public void writeReviewsToParcel(Parcel dest) {
-        if (this.reviewList != null && this.reviewList.size()>0) {
-
-            String[] authors= new String[] {};
-            String[] content = new String[] {};
-
-            for (int i=0;i<reviewList.size();i++) {
-                Pair<String,String> pair = reviewList.get(i);
-                authors[i] = pair.first;
-                content[i] = pair.second;
-            }
-
-            dest.writeStringArray(authors);
-            dest.writeStringArray(content);
-        }
-    }
-
-    public List<String> loadTrailers(Parcel in) {
-        List<String> result = new ArrayList<>();
-        in.readStringList(result);
-        return result;
-    }
-
-    public List<Pair<String, String>> loadReviews(Parcel in) {
-        String[] authors = new String[] {};
-        String[] content = new String[] {};
-        List<Pair<String,String>> result = new ArrayList<>();
-
-        in.readStringArray(authors);
-        in.readStringArray(content);
-
-        for (int i=0;i<authors.length;i++) {
-            result.add(new Pair<String, String>(authors[i],content[i]));
-        }
-        return result;
-    }
+//    public List<Pair<String, String>> loadReviews(Parcel in) {
+//        List<String> authors = new ArrayList<>();
+//        List<String> content = new ArrayList<>();
+//        List<Pair<String,String>> result = new ArrayList<>();
+//
+//        in.readStringList(authors);
+//        in.readStringList(content);
+//
+//        for (int i=0;i<authors.size();i++) {
+//            result.add(new Pair<String, String>(authors.get(i),content.get(i)));
+//        }
+//        return result;
+//    }
 
 }

@@ -13,6 +13,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -25,14 +27,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
+
+            Intent intent = getIntent();
+            ArrayList<String> trailers = intent.getStringArrayListExtra(MovieAdapter.TRAILERS_PATH);
+            Movie movie = intent.getParcelableExtra(MovieListActivity.MOVIE);
             Bundle arguments = new Bundle();
-            arguments.putParcelable(MovieListActivity.MOVIE,
-                    getIntent().getParcelableExtra(MovieListActivity.MOVIE));
+
+            arguments.putParcelable(MovieListActivity.MOVIE, movie);
+
+            arguments.putStringArrayList(MovieAdapter.TRAILERS_PATH,trailers);
+
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(arguments);
-            int transaction = getSupportFragmentManager().beginTransaction()
+
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.movie_detail_container, fragment)
                     .commit();
 

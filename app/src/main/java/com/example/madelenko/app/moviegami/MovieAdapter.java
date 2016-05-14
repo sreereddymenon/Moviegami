@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 final class MovieAdapter
         extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
+    public static String TRAILERS_PATH = MovieAdapter.class.getName() + ".Trailers";
     private Movie[] mMovies;
     private MovieListActivity mActivity;
 
@@ -56,6 +60,7 @@ final class MovieAdapter
                 if (mActivity.isTwoPaneMode()) {
                     Bundle arguments = new Bundle();
                     arguments.putParcelable(MovieListActivity.MOVIE,movie);
+                    arguments.putStringArrayList("TRAILERS", (ArrayList)movie.getTrailerList());
                     MovieDetailFragment fragment = new MovieDetailFragment();
                     fragment.setArguments(arguments);
                     mActivity.getSupportFragmentManager().beginTransaction()
@@ -65,7 +70,7 @@ final class MovieAdapter
                     Context context = v.getContext();
                     Intent intent = new Intent(context, MovieDetailActivity.class);
                     intent.putExtra(MovieListActivity.MOVIE, movie);
-
+                    intent.putStringArrayListExtra(TRAILERS_PATH, (ArrayList)movie.getTrailerList());
                     context.startActivity(intent);
                 }
             }

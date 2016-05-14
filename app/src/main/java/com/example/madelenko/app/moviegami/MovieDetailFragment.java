@@ -18,14 +18,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 
 
 public class MovieDetailFragment extends Fragment {
 
     private Movie mMovie;
     private AppCompatActivity mActivity;
+    private YouTubePlayer mPlayer;
+    private LinearLayout mLinearLayout;
 
     public MovieDetailFragment() {
     }
@@ -36,12 +46,21 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = (AppCompatActivity)getActivity();
         mMovie = getArguments().getParcelable(MovieListActivity.MOVIE);
+        ArrayList<String> trailers = getArguments().getStringArrayList(MovieAdapter.TRAILERS_PATH);
+        mMovie.setTrailers(trailers);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_detail, container, false);
+        mLinearLayout = (LinearLayout) rootView.findViewById(R.id.card_linear_layout);
+
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
         mActivity.setSupportActionBar(toolbar);
@@ -76,36 +95,51 @@ public class MovieDetailFragment extends Fragment {
             setupTrailers(rootView);
 
         }
+
+        YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
+        mActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.youtube_fragment_target, fragment)
+                .commit();
+
+        fragment.initialize("AIzaSyAp8HgLng6TaV0xlcWN3iv8s_S_XZZGfBs", new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                mPlayer = youTubePlayer;
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
+
+
         return rootView;
     }
 
     private void setupTrailers(View rootView) {
-        Log.e(this.getClass().getSimpleName(), "NUMBER OF TRAILERS: " + mMovie.getTrailerList().size());
-        //TODO: YOU WERE HERE, TRAILERS GET READ FROM PARCEL. CHECK VIEWS ETC.
 
-        ListViewCompat listview = (ListViewCompat)rootView.findViewById(R.id.trailer_listview);
         int size = mMovie.getTrailerList().size();
-        String[] trailers = new String[size];
         for (int i=0; i<size; i++) {
-            trailers[i] = "Trailer " + (i+1);
+            addTrailerToCard(i);
         }
-        listview.setAdapter(new ArrayAdapter<String>(
-                mActivity,
-                R.layout.trailer_textview,
-                R.id.trailer_element,
-                trailers
-        ));
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+    }
+
+    private void addTrailerToCard(final int position) {
+        TextView textView = new TextView(getContext());
+        textView.setText(mActivity.getString(R.string.trailer_text) + (position+1));
+        textView.setClickable(true);
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse((String)mMovie.getTrailerList().get(position))
-                );
-                startActivity(intent);
+            public void onClick(View v) {
+                String video = (String) mMovie.getTrailerList().get(position);
+                mPlayer.loadVideo(video);
             }
         });
+        mLinearLayout.addView(textView);
     }
 
 

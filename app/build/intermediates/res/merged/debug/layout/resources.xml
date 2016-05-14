@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/trailer_list_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_vertical_margin"
+        android:layout_marginBottom="@dimen/cardview_vertical_margin"
+        android:layout_marginStart="@dimen/cardview_horizontal_margin"
+        android:layout_marginLeft="@dimen/cardview_horizontal_margin"
+        android:layout_marginRight="@dimen/cardview_horizontal_margin"
+        android:layout_marginEnd="@dimen/cardview_horizontal_margin"
+        card_view:cardElevation="@dimen/cardview_default_elevation"
+        card_view:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:id="@+id/card_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/youtube_fragment_target"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/trailers"
+                style="@style/Base.TextAppearance.AppCompat.Title"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/review_list_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/cardview_vertical_margin"
+        android:layout_marginBottom="@dimen/cardview_vertical_margin"
+        android:layout_marginStart="@dimen/cardview_horizontal_margin"
+        android:layout_marginLeft="@dimen/cardview_horizontal_margin"
+        android:layout_marginRight="@dimen/cardview_horizontal_margin"
+        android:layout_marginEnd="@dimen/cardview_horizontal_margin"
+        card_view:cardElevation="@dimen/cardview_default_elevation"
+        card_view:cardPreventCornerOverlap="false"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/reviews"/>
+
+            <android.support.v7.widget.ListViewCompat
+                android:id="@+id/review_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

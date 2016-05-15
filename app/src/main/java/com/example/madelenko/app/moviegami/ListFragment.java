@@ -1,15 +1,22 @@
 package com.example.madelenko.app.moviegami;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
+import com.example.madelenko.app.moviegami.datalayer.MovieTables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListFragment extends Fragment {
@@ -48,9 +55,94 @@ public class ListFragment extends Fragment {
 
         if (mListType == HIGHEST_RATED || mListType == POPULAR) {
             requestMovies();
+        } else if (mListType == FAVORITES) {
+            loadMoviesFromDb();
         }
 
         return rootView;
+    }
+
+    private void loadMoviesFromDb() {
+        Cursor cursor = getActivity().getContentResolver().query(
+                MovieProvider.Movies.MOVIES,
+                null,
+                null,
+                null,
+                null
+        );
+        if (cursor == null) {return;}
+        Movie[] movies = new Movie[cursor.getCount()];
+        int counter = 0;
+        while (cursor.moveToNext()) {
+            Movie movie = Movie.makeMovie(
+                    cursor.getInt(cursor.getColumnIndex(MovieTables.MovieColumns._ID)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.TITLE)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.POSTER)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.DATE)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.SYNOPSIS)),
+                    cursor.getFloat(cursor.getColumnIndex(MovieTables.MovieColumns.RATING))
+            );
+            movies[counter++] = movie;
+            loadResourcesFromDb(Movie.TRAILER,movie);
+            loadResourcesFromDb(Movie.REVIEW,movie);
+        }
+        setMovies(movies);
+        cursor.close();
+    }
+
+    private void loadResourcesFromDb(int resourceType, Movie movie) {
+        Uri contentUri = null;
+        switch (resourceType) {
+            case Movie.TRAILER:
+                contentUri = MovieProvider.Trailers.withIdTrailers(movie.getMovieId());
+                break;
+            case Movie.REVIEW:
+                contentUri = MovieProvider.Reviews.withIdReviews(movie.getMovieId());
+                break;
+            default:
+                throw new IllegalArgumentException("Unidentified type of resource.");
+        }
+        Cursor cursor = getActivity().getContentResolver()
+                .query(
+                        contentUri,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+        if (cursor == null) {return;}
+        addResourcesToMovie(resourceType, cursor,movie);
+        cursor.close();
+    }
+
+    private void addResourcesToMovie(int resourceType, @NonNull Cursor cursor, Movie movie) {
+        switch (resourceType) {
+            case Movie.TRAILER:
+                ArrayList<String> trailerList = new ArrayList<String>();
+                while (cursor.moveToNext()) {
+                    trailerList.add(
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.TrailerColumns.VIDEO))
+                    );
+                }
+                movie.setTrailers(trailerList);
+                break;
+            case Movie.REVIEW:
+                ArrayList<Pair<String,String>> reviewList = new ArrayList<Pair<String, String>>();
+                while (cursor.moveToNext()) {
+                    reviewList.add(new Pair<String, String>(
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.ReviewColumns.AUTHOR)),
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.ReviewColumns.CONTENT))
+
+                    ));
+                }
+                movie.setReviews(reviewList);
+                break;
+            default:
+                throw new IllegalArgumentException("Unidentified type of resource.");
+        }
     }
 
 

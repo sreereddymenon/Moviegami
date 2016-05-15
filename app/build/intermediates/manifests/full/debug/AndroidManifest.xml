@@ -36,10 +36,10 @@
                 android:value="com.example.madelenko.app.moviegami.MovieListActivity" />
         </activity>
 
-        <service
-            android:name="com.example.madelenko.app.moviegami.FetchMoviesService"
-            android:enabled="true"
-            android:exported="false" />
+        <provider
+            android:name="com.example.madelenko.app.moviegami.datalayer.generated.MovieProvider"
+            android:authorities="com.example.madelenko.app.moviegami.datalayer.MovieProvider" >
+        </provider>
     </application>
 
 </manifest>

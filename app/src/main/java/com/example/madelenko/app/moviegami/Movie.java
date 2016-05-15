@@ -21,6 +21,9 @@ final class Movie implements Parcelable{
     private ArrayList<String> trailerList;
     private ArrayList<Pair<String,String>> reviewList;
 
+    public static final int TRAILER = 1001;
+    public static final int REVIEW = 2002;
+
 
     private Movie(int movieId, String originalTitle, String posterPath,
                  String releaseDate, String synopsis, double userRating) {
@@ -34,7 +37,6 @@ final class Movie implements Parcelable{
         this.reviewList = null;
     }
 
-    // Package-private factory method to create movies with the service
     static Movie makeMovie(int movieId, String originalTitle, String posterPath,
                            String releaseDate, String synopsis, double userRating) {
 
@@ -60,7 +62,8 @@ final class Movie implements Parcelable{
     }
 
     protected List getReviewList() {
-        return (ArrayList) reviewList.clone();
+
+        return reviewList==null? null : (ArrayList) reviewList.clone();
     }
 
     protected String getSynopsis() {
@@ -68,7 +71,7 @@ final class Movie implements Parcelable{
     }
 
     protected List getTrailerList() {
-        return (ArrayList) trailerList.clone();
+        return trailerList==null? null : (ArrayList) trailerList.clone();
     }
 
     protected double getUserRating() {

@@ -1,36 +1,32 @@
 package com.example.madelenko.app.moviegami;
 
-import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.ContentValues;
+import android.database.SQLException;
 import android.net.Uri;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
+import com.example.madelenko.app.moviegami.datalayer.MovieTables.MovieColumns;
+import com.example.madelenko.app.moviegami.datalayer.MovieTables.TrailerColumns;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class MovieDetailFragment extends Fragment {
@@ -82,8 +78,14 @@ public class MovieDetailFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    try {
+                        insertMovieIntoDatabase();
+                        insertTrailersIntoDatabase(Movie.TRAILER);
+//                        int result = insertTrailersIntoDatabase(Movie.REVIEW);
+
+//                        Snackbar.make(view, "inserted: " + result, Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+                    } catch (SQLException e) {}
                 }
             });
         }
@@ -96,7 +98,9 @@ public class MovieDetailFragment extends Fragment {
                 Picasso.with(mActivity).load(mMovie.getPosterPath())
                         .into((ImageView) appBarLayout.findViewById(R.id.image_stretch_detail));
             }
-            setupTrailers(rootView);
+            if (mMovie.getTrailerList() != null) {
+                setupTrailers(rootView);
+            }
 
         }
 
@@ -117,9 +121,51 @@ public class MovieDetailFragment extends Fragment {
 
             }
         });
-
-
         return rootView;
+    }
+
+    private int insertTrailersIntoDatabase(int resourceType) {
+        List<String> resources = null;
+        Uri insertionUri = null;
+
+        switch (resourceType) {
+            case Movie.TRAILER:
+                resources = mMovie.getTrailerList();
+                insertionUri = MovieProvider.Trailers.withIdTrailers(mMovie.getMovieId());
+                break;
+            case Movie.REVIEW:
+                resources = mMovie.getReviewList();
+                insertionUri = MovieProvider.Reviews.withIdReviews(mMovie.getMovieId());
+                break;
+            default:
+                throw new IllegalArgumentException("Undefined resource type.");
+        }
+
+        if (resources != null) {
+            ContentValues[] contentValuesArray = new ContentValues[resources.size()];
+            for (int i=0;i<resources.size();i++) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TrailerColumns.MOVIE_ID, mMovie.getMovieId());
+                contentValues.put(TrailerColumns.VIDEO, resources.get(i));
+                contentValuesArray[i] = contentValues;
+            }
+            return mActivity.getContentResolver().bulkInsert(
+                    insertionUri,
+                    contentValuesArray
+            );
+        }
+        return 0;
+    }
+
+    private Uri insertMovieIntoDatabase() {
+        ContentValues values = new ContentValues();
+        values.put(MovieColumns._ID, mMovie.getMovieId());
+        values.put(MovieColumns.TITLE, mMovie.getOriginalTitle());
+        values.put(MovieColumns.POSTER, mMovie.getPosterPath());
+        values.put(MovieColumns.SYNOPSIS, mMovie.getSynopsis());
+        values.put(MovieColumns.RATING, mMovie.getUserRating());
+        values.put(MovieColumns.DATE, mMovie.getReleaseDate());
+        return mActivity.getContentResolver().insert(MovieProvider.Movies.MOVIES, values);
     }
 
     private void setupTrailers(View rootView) {

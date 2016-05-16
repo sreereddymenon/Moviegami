@@ -2466,8 +2466,8 @@ containing a value of this type.
         public static final int home=0x7f0c0004;
         public static final int homeAsUp=0x7f0c000f;
         public static final int icon=0x7f0c0042;
-        public static final int icon_calendar=0x7f0c0093;
-        public static final int icon_star=0x7f0c0095;
+        public static final int icon_calendar=0x7f0c0094;
+        public static final int icon_star=0x7f0c0096;
         public static final int ifRoom=0x7f0c0035;
         public static final int image=0x7f0c003f;
         public static final int image_stretch_detail=0x7f0c0079;
@@ -2492,14 +2492,15 @@ containing a value of this type.
         public static final int none=0x7f0c0010;
         public static final int normal=0x7f0c000c;
         public static final int overlay=0x7f0c007d;
+        public static final int overview_content=0x7f0c0093;
         public static final int parallax=0x7f0c001b;
         public static final int parentPanel=0x7f0c0046;
         public static final int pin=0x7f0c001c;
         public static final int progress_circular=0x7f0c0006;
         public static final int progress_horizontal=0x7f0c0007;
         public static final int radio=0x7f0c0054;
-        public static final int release_date_textview=0x7f0c0094;
-        public static final int review_list_cardview=0x7f0c0097;
+        public static final int release_date_textview=0x7f0c0095;
+        public static final int review_list_cardview=0x7f0c0098;
         public static final int right=0x7f0c0024;
         public static final int screen=0x7f0c0028;
         public static final int scroll=0x7f0c0018;
@@ -2549,7 +2550,7 @@ containing a value of this type.
         public static final int trailer_list_cardview=0x7f0c008d;
         public static final int up=0x7f0c0009;
         public static final int useLogo=0x7f0c0014;
-        public static final int user_rating_textview=0x7f0c0096;
+        public static final int user_rating_textview=0x7f0c0097;
         public static final int view_offset_helper=0x7f0c000a;
         public static final int viewpager=0x7f0c006d;
         public static final int withText=0x7f0c0037;

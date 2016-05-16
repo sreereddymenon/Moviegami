@@ -31,13 +31,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
 
             Intent intent = getIntent();
-            ArrayList<String> trailers = intent.getStringArrayListExtra(MovieAdapter.TRAILERS_PATH);
             Movie movie = intent.getParcelableExtra(MovieListActivity.MOVIE);
             Bundle arguments = new Bundle();
 
             arguments.putParcelable(MovieListActivity.MOVIE, movie);
-
-            arguments.putStringArrayList(MovieAdapter.TRAILERS_PATH,trailers);
 
             mFragment = new MovieDetailFragment();
             mFragment.setArguments(arguments);

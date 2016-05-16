@@ -673,8 +673,8 @@ int id fixed 0x7f0c0038
 int id home 0x7f0c0004
 int id homeAsUp 0x7f0c000f
 int id icon 0x7f0c0042
-int id icon_calendar 0x7f0c0093
-int id icon_star 0x7f0c0095
+int id icon_calendar 0x7f0c0094
+int id icon_star 0x7f0c0096
 int id ifRoom 0x7f0c0035
 int id image 0x7f0c003f
 int id image_stretch_detail 0x7f0c0079
@@ -699,14 +699,15 @@ int id never 0x7f0c0036
 int id none 0x7f0c0010
 int id normal 0x7f0c000c
 int id overlay 0x7f0c007d
+int id overview_content 0x7f0c0093
 int id parallax 0x7f0c001b
 int id parentPanel 0x7f0c0046
 int id pin 0x7f0c001c
 int id progress_circular 0x7f0c0006
 int id progress_horizontal 0x7f0c0007
 int id radio 0x7f0c0054
-int id release_date_textview 0x7f0c0094
-int id review_list_cardview 0x7f0c0097
+int id release_date_textview 0x7f0c0095
+int id review_list_cardview 0x7f0c0098
 int id right 0x7f0c0024
 int id screen 0x7f0c0028
 int id scroll 0x7f0c0018
@@ -756,7 +757,7 @@ int id touch_outside 0x7f0c006f
 int id trailer_list_cardview 0x7f0c008d
 int id up 0x7f0c0009
 int id useLogo 0x7f0c0014
-int id user_rating_textview 0x7f0c0096
+int id user_rating_textview 0x7f0c0097
 int id view_offset_helper 0x7f0c000a
 int id viewpager 0x7f0c006d
 int id withText 0x7f0c0037

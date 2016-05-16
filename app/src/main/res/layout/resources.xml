@@ -108,6 +108,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Title"/>
 
                 <TextView
+                    android:id="@+id/overview_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lorem_ipsum"
@@ -133,6 +134,8 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/cardview_action_padding"
+                    android:layout_marginStart="@dimen/cardview_action_padding"
                     android:src="@drawable/ic_calendar"
                     android:contentDescription="@string/release_date_icon"/>
 

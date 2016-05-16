@@ -70,7 +70,7 @@ final class MovieAdapter
                     Context context = v.getContext();
                     Intent intent = new Intent(context, MovieDetailActivity.class);
                     intent.putExtra(MovieListActivity.MOVIE, movie);
-                    intent.putStringArrayListExtra(TRAILERS_PATH, (ArrayList)movie.getTrailerList());
+//                    intent.putStringArrayListExtra(TRAILERS_PATH, (ArrayList)movie.getTrailerList());
                     context.startActivity(intent);
                 }
             }

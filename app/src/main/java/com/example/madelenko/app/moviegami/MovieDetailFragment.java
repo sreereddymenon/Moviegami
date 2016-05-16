@@ -13,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
 import com.example.madelenko.app.moviegami.datalayer.MovieTables.MovieColumns;
@@ -33,6 +35,7 @@ public class MovieDetailFragment extends Fragment {
     private Movie mMovie;
     private AppCompatActivity mActivity;
     private YouTubePlayer mPlayer;
+    private int mCurrentTrailer = 0;
     private LinearLayout mLinearLayout;
 
     public MovieDetailFragment() {
@@ -46,12 +49,6 @@ public class MovieDetailFragment extends Fragment {
         mMovie = getArguments().getParcelable(MovieListActivity.MOVIE);
         ArrayList<String> trailers = getArguments().getStringArrayList(MovieAdapter.TRAILERS_PATH);
         mMovie.setTrailers(trailers);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -99,6 +96,11 @@ public class MovieDetailFragment extends Fragment {
             }
         }
 
+        loadYoutubeFragment();
+        return rootView;
+    }
+
+    private void loadYoutubeFragment() {
         YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
@@ -107,16 +109,57 @@ public class MovieDetailFragment extends Fragment {
 
         fragment.initialize("AIzaSyAp8HgLng6TaV0xlcWN3iv8s_S_XZZGfBs", new YouTubePlayer.OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+            public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                                YouTubePlayer youTubePlayer, boolean b) {
                 mPlayer = youTubePlayer;
+                List<String> trailerList = mMovie.getTrailerList();
+                if (trailerList != null && trailerList.size()>0) {
+                    mPlayer.cueVideos(trailerList);
+                }
             }
-
             @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+            public void onInitializationFailure(
+                    YouTubePlayer.Provider provider,
+                    YouTubeInitializationResult youTubeInitializationResult) {
 
             }
         });
-        return rootView;
+    }
+
+    void updateVideoStatus(View v) {
+        int tag = v.getId();
+        List<String> trailerList = mMovie.getTrailerList();
+        if (trailerList == null || trailerList.size() <= 0) {return;}
+
+        switch (tag) {
+            case R.id.cardview_action_play:
+                if (mPlayer.isPlaying()) {
+                    mPlayer.pause();
+                    ((ImageButton)v).setImageResource(R.drawable.ic_play_arrow_black_translucid);
+                } else {
+                    mPlayer.play();
+                    ((ImageButton)v).setImageResource(R.drawable.ic_pause_black_translucid);
+                }
+                break;
+            case R.id.cardview_action_next:
+                if (mPlayer.hasNext()) {
+                    mPlayer.next();
+                } else {
+                    Toast.makeText(
+                            getContext(),"No more videos available",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.cardview_action_previous:
+                if (mPlayer.hasPrevious()) {
+                    mPlayer.previous();
+                } else {
+                    Toast.makeText(
+                            getContext(),"First video reached",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Undefined button type.");
+        }
     }
 
     private int insertResourcesIntoDatabase(int resourceType) {

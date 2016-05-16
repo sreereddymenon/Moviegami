@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class MovieDetailActivity extends AppCompatActivity {
 
     Movie mMovie;
+    MovieDetailFragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             arguments.putStringArrayList(MovieAdapter.TRAILERS_PATH,trailers);
 
-            MovieDetailFragment fragment = new MovieDetailFragment();
-            fragment.setArguments(arguments);
+            mFragment = new MovieDetailFragment();
+            mFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movie_detail_container, fragment)
+                    .add(R.id.movie_detail_container, mFragment)
                     .commit();
 
         }
@@ -55,5 +57,9 @@ public class MovieDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void updateVideoStatus(View v) {
+        mFragment.updateVideoStatus(v);
     }
 }

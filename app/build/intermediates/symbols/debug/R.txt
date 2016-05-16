@@ -606,9 +606,10 @@ int drawable design_snackbar_background 0x7f02004c
 int drawable ic_calendar 0x7f02004d
 int drawable ic_fast_forward_black_translucid 0x7f02004e
 int drawable ic_fast_rewind_black_translucid 0x7f02004f
-int drawable ic_play_arrow_black_translucid 0x7f020050
-int drawable ic_star_border_black 0x7f020051
-int drawable notification_template_icon_bg 0x7f020052
+int drawable ic_pause_black_translucid 0x7f020050
+int drawable ic_play_arrow_black_translucid 0x7f020051
+int drawable ic_star_border_black 0x7f020052
+int drawable notification_template_icon_bg 0x7f020053
 int id action0 0x7f0c0080
 int id action_bar 0x7f0c005a
 int id action_bar_activity_content 0x7f0c0000

@@ -5,4 +5,10 @@
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
     <string name="trailer_text">"Trailer "</string>
+    <string name="button_play">Play current trailer</string>
+    <string name="overview">Overview</string>
+    <string name="lorem_ipsum">Lorem Ipsum Dolor Sit Amed. Lorem Ipsum Dolor Sit Amed.</string>
+    <string name="release_date_icon">Release date</string>
+    <string name="user_rating_icon">User rating</string>
+    <string name="short_lorem">Lorem</string>
 </resources>

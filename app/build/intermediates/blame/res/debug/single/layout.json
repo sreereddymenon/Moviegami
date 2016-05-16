@@ -124,12 +124,12 @@
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_select_dialog_material.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/movie_list.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout/movie_list.xml"
-    },
-    {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/design_navigation_item_header.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_navigation_item_header.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/movie_list.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout/movie_list.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",
@@ -152,12 +152,12 @@
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_navigation_item.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/notification_template_big_media_narrow.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/notification_template_big_media_narrow.xml"
-    },
-    {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/select_dialog_item_material.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/notification_template_big_media_narrow.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/notification_template_big_media_narrow.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/design_navigation_menu.xml",
@@ -182,14 +182,6 @@
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_action_mode_close_item_material.xml"
-    },
-    {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/notification_media_action.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/notification_media_action.xml"
-    },
-    {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_list_menu_item_layout.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/resources.xml",
@@ -220,7 +212,11 @@
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_action_menu_item_layout.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/trailer_layout.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout/trailer_layout.xml"
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/notification_media_action.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/notification_media_action.xml"
     }
 ]

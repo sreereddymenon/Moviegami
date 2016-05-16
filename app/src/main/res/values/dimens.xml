@@ -4,8 +4,11 @@
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="cardview_horizontal_margin">16dp</dimen>
+    <dimen name="cardview_horizontal_margin">4dp</dimen>
     <dimen name="cardview_vertical_margin">32dp</dimen>
     <dimen name="divider_height">2dp</dimen>
     <dimen name="cardview_inset_element">46dp</dimen>
+    <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="cardview_action_padding">8dp</dimen>
+    <dimen name="cardview_text_padding">24dp</dimen>
 </resources>

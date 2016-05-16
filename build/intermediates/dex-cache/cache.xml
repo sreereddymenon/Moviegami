@@ -40,7 +40,7 @@
         jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="c1c784e6d995badde9005ab1f00ef965ab87a39e">
+        sha1="152156d96f54a92ab5132ce6f9fe571c94b02004">
         <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f1dd23da151457a777708e9988af763aa066b730/classes.dex" />
     </item>
     <item
@@ -82,7 +82,7 @@
         jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="49bcf870c64b635883889bbd63146b4def892eb0">
+        sha1="2178151e6178599743e50c2ccc4ad18d5f119f27">
         <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e3f9cfc0bb6ed8027c4f5b367a62398ce49d6701/classes.dex" />
     </item>
     <item

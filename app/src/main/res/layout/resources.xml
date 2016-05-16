@@ -13,12 +13,10 @@
         android:id="@+id/trailer_list_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/cardview_vertical_margin"
-        android:layout_marginBottom="@dimen/cardview_vertical_margin"
-        android:layout_marginStart="@dimen/cardview_horizontal_margin"
+        android:layout_marginTop="@dimen/cardview_inset_element"
+        android:layout_marginBottom="@dimen/cardview_horizontal_margin"
         android:layout_marginLeft="@dimen/cardview_horizontal_margin"
         android:layout_marginRight="@dimen/cardview_horizontal_margin"
-        android:layout_marginEnd="@dimen/cardview_horizontal_margin"
         card_view:cardElevation="@dimen/cardview_default_elevation"
         card_view:cardPreventCornerOverlap="false">
 
@@ -33,15 +31,135 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
 
-
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/trailers"
-                style="@style/Base.TextAppearance.AppCompat.Title"/>
+                android:padding="@dimen/cardview_action_padding">
+
+                <ImageButton
+                    android:id="@+id/cardview_action_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="@dimen/cardview_horizontal_margin"
+                    android:paddingBottom="@dimen/cardview_horizontal_margin"
+                    android:paddingLeft="@dimen/cardview_action_padding"
+                    android:paddingRight="@dimen/cardview_action_padding"
+                    android:contentDescription="@string/button_play"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_fast_forward_black_translucid"/>
+
+                <ImageButton
+                    android:id="@+id/cardview_action_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:paddingTop="@dimen/cardview_horizontal_margin"
+                    android:paddingBottom="@dimen/cardview_horizontal_margin"
+                    android:paddingLeft="@dimen/cardview_action_padding"
+                    android:paddingRight="@dimen/cardview_action_padding"
+                    android:layout_toLeftOf="@id/cardview_action_next"
+                    android:layout_toStartOf="@id/cardview_action_next"
+                    android:contentDescription="@string/button_play"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_play_arrow_black_translucid"/>
+
+                <ImageButton
+                    android:id="@+id/cardview_action_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:paddingTop="@dimen/cardview_horizontal_margin"
+                    android:paddingBottom="@dimen/cardview_horizontal_margin"
+                    android:paddingLeft="@dimen/cardview_action_padding"
+                    android:paddingRight="@dimen/cardview_action_padding"
+                    android:layout_toLeftOf="@id/cardview_action_play"
+                    android:layout_toStartOf="@id/cardview_action_play"
+                    android:contentDescription="@string/button_play"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_fast_rewind_black_translucid"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:drawable/divider_horizontal_bright"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/cardview_text_padding"
+                android:paddingBottom="@dimen/cardview_text_padding"
+                android:paddingRight="@dimen/text_margin"
+                android:paddingLeft="@dimen/text_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/overview"
+                    style="@style/Base.TextAppearance.AppCompat.Title"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum"
+                    style="@style/TextAppearance.AppCompat.Small"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:drawable/divider_horizontal_bright"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/cardview_action_padding">
+
+                <ImageView
+                    android:id="@+id/icon_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_calendar"
+                    android:contentDescription="@string/release_date_icon"/>
+
+                <TextView
+                    android:id="@+id/release_date_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/cardview_action_padding"
+                    android:layout_toRightOf="@+id/icon_calendar"
+                    android:layout_toEndOf="@+id/icon_calendar"
+                    android:text="@string/short_lorem"/>
+
+                <ImageView
+                    android:id="@+id/icon_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/release_date_textview"
+                    android:layout_toEndOf="@+id/release_date_textview"
+                    android:src="@drawable/ic_star_border_black"
+                    android:contentDescription="@string/user_rating_icon"/>
+
+                <TextView
+                    android:id="@+id/user_rating_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/icon_star"
+                    android:layout_toEndOf="@+id/icon_star"
+                    android:text="@string/short_lorem"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -51,15 +169,10 @@
         android:id="@+id/review_list_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/cardview_vertical_margin"
-        android:layout_marginBottom="@dimen/cardview_vertical_margin"
-        android:layout_marginStart="@dimen/cardview_horizontal_margin"
-        android:layout_marginLeft="@dimen/cardview_horizontal_margin"
-        android:layout_marginRight="@dimen/cardview_horizontal_margin"
-        android:layout_marginEnd="@dimen/cardview_horizontal_margin"
+        android:layout_margin="@dimen/cardview_horizontal_margin"
+        android:layout_marginTop="0dp"
         card_view:cardElevation="@dimen/cardview_default_elevation"
-        card_view:cardPreventCornerOverlap="false"
-        >
+        card_view:cardPreventCornerOverlap="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,12 +184,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/reviews"/>
-
-            <android.support.v7.widget.ListViewCompat
-                android:id="@+id/review_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:text="@string/reviews"
+                style="@style/Base.TextAppearance.AppCompat.Title"/>
 
         </LinearLayout>
 

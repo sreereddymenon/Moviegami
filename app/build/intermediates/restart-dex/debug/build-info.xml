@@ -4,29 +4,34 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="62418253018816" >
+    timestamp="11265002184018" >
 
     <task
         name="javac"
-        duration="849" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="511" />
+        duration="0" />
     <task
         name="verifier"
-        duration="22" />
+        duration="0" />
 
     <artifact
-        location="/home/madelenko/Desktop/Moviegami/app/build/outputs/apk/app-debug.apk"
-        type="MAIN" />
+        location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/resources-debug.ap_"
+        type="RESOURCES" />
 
-    <build timestamp="62418253018816" >
+    <build timestamp="10685229272091" >
         <artifact
             location="/home/madelenko/Desktop/Moviegami/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
+    </build>
+    <build timestamp="11265002184018" >
+        <artifact
+            location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/resources-debug.ap_"
+            type="RESOURCES" />
     </build>
 
 </instant-run>

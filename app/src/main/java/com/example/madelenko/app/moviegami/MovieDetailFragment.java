@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
 import com.example.madelenko.app.moviegami.datalayer.MovieTables.MovieColumns;
@@ -80,8 +79,8 @@ public class MovieDetailFragment extends Fragment {
                 public void onClick(View view) {
                     try {
                         insertMovieIntoDatabase();
-                        insertTrailersIntoDatabase(Movie.TRAILER);
-//                        int result = insertTrailersIntoDatabase(Movie.REVIEW);
+                        insertResourcesIntoDatabase(Movie.TRAILER);
+//                        int result = insertResourcesIntoDatabase(Movie.REVIEW);
 
 //                        Snackbar.make(view, "inserted: " + result, Snackbar.LENGTH_LONG)
 //                                .setAction("Action", null).show();
@@ -98,10 +97,6 @@ public class MovieDetailFragment extends Fragment {
                 Picasso.with(mActivity).load(mMovie.getPosterPath())
                         .into((ImageView) appBarLayout.findViewById(R.id.image_stretch_detail));
             }
-            if (mMovie.getTrailerList() != null) {
-                setupTrailers(rootView);
-            }
-
         }
 
         YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
@@ -124,7 +119,7 @@ public class MovieDetailFragment extends Fragment {
         return rootView;
     }
 
-    private int insertTrailersIntoDatabase(int resourceType) {
+    private int insertResourcesIntoDatabase(int resourceType) {
         List<String> resources = null;
         Uri insertionUri = null;
 
@@ -167,33 +162,4 @@ public class MovieDetailFragment extends Fragment {
         values.put(MovieColumns.DATE, mMovie.getReleaseDate());
         return mActivity.getContentResolver().insert(MovieProvider.Movies.MOVIES, values);
     }
-
-    private void setupTrailers(View rootView) {
-
-        int size = mMovie.getTrailerList().size();
-        for (int i=0; i<size; i++) {
-            addTrailerToCard(i);
-        }
-
-
-    }
-
-    private void addTrailerToCard(final int position) {
-        LinearLayout layout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.trailer_layout,null);
-        TextView textView = (TextView) layout.findViewById(R.id.trailer_element);
-        textView.setText(getString(R.string.trailer_text) + (position + 1));
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPlayer.loadVideo((String) mMovie.getTrailerList().get(position));
-            }
-        });
-        mLinearLayout.addView(layout);
-    }
-
-
-
-
-
-
 }

@@ -14,4 +14,6 @@
     <string name="user_content_description">Review author</string>
     <string name="review_empty_string">There are no reviews available for this movie.</string>
     <string name="username_empty_string">Oops!</string>
+    <string name="action_share">Share</string>
+    <string name="action_next">Next</string>
 </resources>

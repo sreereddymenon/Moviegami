@@ -1,6 +1,7 @@
 package com.example.madelenko.app.moviegami;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +40,7 @@ import static com.google.android.youtube.player.YouTubePlayer.*;
 
 public class MovieDetailFragment extends Fragment {
 
+    private static final String MESSAGE = "message";
     private Movie mMovie;
     private AppCompatActivity mActivity;
     private YouTubePlayer mPlayer;
@@ -95,21 +98,47 @@ public class MovieDetailFragment extends Fragment {
                         .into((ImageView) appBarLayout.findViewById(R.id.image_stretch_detail));
             }
         }
+        setButtonCallbacks(rootView);
         bindViewValues(rootView);
         loadYoutubeFragment();
         return rootView;
+    }
+
+    private void setButtonCallbacks(final View rootView) {
+        Button buttonShare = (Button)rootView.findViewById(R.id.action_share);
+        Button buttonNext = (Button)rootView.findViewById(R.id.action_next);
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(MESSAGE, mMovie.toString());
+                startActivity(intent);
+            }
+        });
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMovie.nextReview();
+                bindReviews(rootView);
+            }
+        });
     }
 
     private void bindViewValues(View rootView) {
         TextView overviewContent = (TextView) rootView.findViewById(R.id.overview_content);
         TextView releaseDate = (TextView) rootView.findViewById(R.id.release_date_textview);
         TextView rating = (TextView) rootView.findViewById(R.id.user_rating_textview);
-        TextView username = (TextView) rootView.findViewById(R.id.username_textview);
-        TextView reviewText = (TextView) rootView.findViewById(R.id.review_body);
 
         overviewContent.setText(mMovie.getSynopsis());
         releaseDate.setText(mMovie.getReleaseDate());
         rating.setText(String.format("%.1f",mMovie.getUserRating()));
+        bindReviews(rootView);
+    }
+
+    private void bindReviews(View rootView) {
+        TextView username = (TextView) rootView.findViewById(R.id.username_textview);
+        TextView reviewText = (TextView) rootView.findViewById(R.id.review_body);
 
         if (mMovie.hasReviews()) {
             username.setText(mMovie.currentReviewAuthor());

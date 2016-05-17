@@ -1,2 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/home/madelenko/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.2_f2c1e5ed2ed5b671fd31eb822811254cb5b76c15/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.3.0_8bf26c4f4b33d6e02732a22ad6e5167f65f81b15/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-23.3.0_8f64443d21952129b5667054398a1b993ba08ae5/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/libs/YouTubeAndroidPlayerApi.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3c4f96ff493456651cc7bdb0b47e10eb25545a16">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/2/YouTubeAndroidPlayerApi_68c1f4e3e264f9a77fe461f409e3cbc16bde8030/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-23.3.0_c451358af4759b69900002e816f1e9c75f63bcaf/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3ee6561e29629d1814ceec42d45472ef7aebac48">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f1dd23da151457a777708e9988af763aa066b730/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/libs/internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.3.0_11a0faaadfa203682944f4d2e6f970cb0d081e37/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.3.0_b7cc30705b0a1f3026b10ecba0aed24476042f5d/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="82ce13fd19cdfde0e392f03c27edeba8d4333648">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-cardview-v7-23.3.0_d9682e33060c67c31e0d01f92a8400df9a1e856a/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.3.0/support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.3.0_c2d0b0b4f24e352b39ce107b58a8e0b5307f013d/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/net.simonvt.schematic/schematic/0.6.3/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f6f5730f19d22f177096c8d134d4892b0fbd631d">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/net.simonvt.schematic-schematic-0.6.3_474dce2e214efcba09e2ea666185eb99c8fbecfb/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9c4194a6496b83a0d89e2e081012cf5d6ff622e9">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e3f9cfc0bb6ed8027c4f5b367a62398ce49d6701/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/.gradle/caches/modules-2/files-2.1/net.simonvt.schematic/schematic-annotations/0.6.3/4df5a4bbbacf9ea3c4aebf7d3c61465afb648e36/schematic-annotations-0.6.3.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4df5a4bbbacf9ea3c4aebf7d3c61465afb648e36">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/schematic-annotations-0.6.3_d4745cb1d880e51bb7852fdc8868753b271dc28c/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.3.0_2e8822480caa0f32bb1c652f0ccb6d87fae8ba6c/classes.dex" />
+    </item>
+    <item
+        jar="/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f0001e71cea6ae432a00021c6f727f5ef0f3d27e">
+        <dex dex="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.3.0_c0561d4575c64310a76f3c2b4271146c5ee21b38/classes.dex" />
+    </item>
+
+</items>

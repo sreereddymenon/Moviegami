@@ -4,36 +4,42 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="38861254994943" >
+    timestamp="52286298489909" >
 
     <task
         name="javac"
-        duration="373" />
+        duration="406" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="11" />
+        duration="31" />
     <task
         name="verifier"
-        duration="1" />
+        duration="2" />
 
     <artifact
         location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3/classes.dex"
         type="DEX" />
 
-    <build timestamp="35166480778885" >
+    <build timestamp="47676431989866" >
         <artifact
             location="/home/madelenko/Desktop/Moviegami/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="38370679474327" >
+    <build timestamp="48165066663598" >
         <artifact
             location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/resources-debug.ap_"
             type="RESOURCES" />
+        <artifact
+            location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+            type="DEX" />
     </build>
-    <build timestamp="38861254994943" >
+    <build timestamp="52286298489909" >
         <artifact
             location="/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3/classes.dex"
             type="DEX" />

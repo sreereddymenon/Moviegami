@@ -33,6 +33,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.android.youtube.player.YouTubePlayer.*;
+
 
 public class MovieDetailFragment extends Fragment {
 
@@ -102,25 +104,37 @@ public class MovieDetailFragment extends Fragment {
         TextView overviewContent = (TextView) rootView.findViewById(R.id.overview_content);
         TextView releaseDate = (TextView) rootView.findViewById(R.id.release_date_textview);
         TextView rating = (TextView) rootView.findViewById(R.id.user_rating_textview);
+        TextView username = (TextView) rootView.findViewById(R.id.username_textview);
+        TextView reviewText = (TextView) rootView.findViewById(R.id.review_body);
 
         overviewContent.setText(mMovie.getSynopsis());
         releaseDate.setText(mMovie.getReleaseDate());
         rating.setText(String.format("%.1f",mMovie.getUserRating()));
+
+        if (mMovie.hasReviews()) {
+            username.setText(mMovie.currentReviewAuthor());
+            reviewText.setText(mMovie.currentReviewContent());
+        }
     }
 
     private void loadYoutubeFragment() {
         YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
+        fragment.setRetainInstance(true);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.youtube_fragment_target, fragment)
                 .commit();
 
-        fragment.initialize("AIzaSyAp8HgLng6TaV0xlcWN3iv8s_S_XZZGfBs", new YouTubePlayer.OnInitializedListener() {
+        fragment.initialize("AIzaSyAp8HgLng6TaV0xlcWN3iv8s_S_XZZGfBs",
+                new OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider,
+            public void onInitializationSuccess(Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {
                 mPlayer = youTubePlayer;
-                mPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+                mPlayer.setPlayerStyle(PlayerStyle.CHROMELESS);
+                mPlayer.addFullscreenControlFlag(
+                        FULLSCREEN_FLAG_CONTROL_ORIENTATION |
+                        FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE);
                 List<String> trailerList = mMovie.getTrailerList();
                 if (trailerList != null && trailerList.size()>0) {
                     mPlayer.cueVideos(trailerList);
@@ -128,7 +142,7 @@ public class MovieDetailFragment extends Fragment {
             }
             @Override
             public void onInitializationFailure(
-                    YouTubePlayer.Provider provider,
+                    Provider provider,
                     YouTubeInitializationResult youTubeInitializationResult) {
 
             }

@@ -24,6 +24,8 @@ final class Movie implements Parcelable{
     public static final int TRAILER = 1001;
     public static final int REVIEW = 2002;
 
+    private int mReviewIndex = 0;
+
 
     private Movie(int movieId, String originalTitle, String posterPath,
                  String releaseDate, String synopsis, double userRating) {
@@ -84,14 +86,12 @@ final class Movie implements Parcelable{
         if (this.reviewList == null) {
             this.reviewList = reviewList;
         }
-        return;
     }
 
     void setTrailers(ArrayList<String> trailerList) {
         if (this.trailerList == null) {
             this.trailerList = trailerList;
         }
-        return;
     }
 
     @Override
@@ -100,6 +100,32 @@ final class Movie implements Parcelable{
                 "movieId=" + movieId +
                 ", originalTitle='" + originalTitle + '\'' +
                 '}';
+    }
+
+    public boolean hasTrailers() {
+        return getTrailerList() !=null && getTrailerList().size() > 0;
+    }
+
+    public boolean hasReviews() {
+        return getReviewList() !=null && getReviewList().size() > 0;
+    }
+
+    public void nextReview() {
+        if (!hasReviews()) return;
+        mReviewIndex = (mReviewIndex +1) % getReviewList().size();
+    }
+
+    private Pair<String,String> currentReview() {
+        if (!hasReviews()) return null;
+        return (Pair<String,String>) reviewList.get(mReviewIndex);
+    }
+
+    public String currentReviewAuthor() {
+        return currentReview()==null? null : reviewList.get(mReviewIndex).first;
+    }
+
+    public String currentReviewContent() {
+        return currentReview()==null? null : reviewList.get(mReviewIndex).second;
     }
 
 

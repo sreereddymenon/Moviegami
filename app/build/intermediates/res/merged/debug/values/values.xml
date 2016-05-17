@@ -306,13 +306,16 @@
     <string name="lorem_ipsum">Lorem Ipsum Dolor Sit Amed. Lorem Ipsum Dolor Sit Amed.</string>
     <string name="overview">Overview</string>
     <string name="release_date_icon">Release date</string>
+    <string name="review_empty_string">There are no reviews available for this movie.</string>
     <string name="reviews">Reviews</string>
     <string name="short_lorem">Lorem</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_movie_detail">Movie Detail</string>
     <string name="trailer_text">"Trailer "</string>
     <string name="trailers">Trailers</string>
+    <string name="user_content_description">Review author</string>
     <string name="user_rating_icon">User rating</string>
+    <string name="username_empty_string">Oops!</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

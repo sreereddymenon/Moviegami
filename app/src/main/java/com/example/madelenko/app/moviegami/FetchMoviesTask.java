@@ -20,12 +20,10 @@ import java.net.URL;
 
 final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
 
-    private static final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/";
-    private static final String PICTURE_BASE_URL = "http://image.tmdb.org/t/p";
     private Context mContext;
-    private delegate mDelegate;
+    private Delegate mDelegate;
 
-    public FetchMoviesTask(delegate delegate, Context context) {
+    public FetchMoviesTask(Delegate delegate, Context context) {
         this.mDelegate = delegate;
         this.mContext = context;
     }
@@ -88,7 +86,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
             default:
                 throw new IllegalArgumentException("Undefined query type");
         }
-        return Uri.parse(MOVIES_BASE_URL)
+        return Uri.parse(Utility.MOVIES_BASE_URL)
                 .buildUpon()
                 .appendPath(path)
                 .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
@@ -123,7 +121,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
                 JSONObject movieObject = array.getJSONObject(i);
 
                 path = movieObject.getString(image);
-                uri = Uri.parse(PICTURE_BASE_URL).buildUpon()
+                uri = Uri.parse(Utility.PICTURE_BASE_URL).buildUpon()
                         .appendPath(Movie.SIZE_THUMBNAIL)
                         .appendEncodedPath(path)
                         .build();
@@ -159,7 +157,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
      * Member interface of the FetchMoviesTask class that defines how to process
      * the movies retrieved by it.
      */
-    public interface delegate {
+    public interface Delegate {
         void processMovies(Movie[] movies);
     }
 }

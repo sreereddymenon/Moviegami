@@ -16,10 +16,9 @@ import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
 import com.example.madelenko.app.moviegami.datalayer.MovieTables;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class ListFragment extends Fragment implements FetchMoviesTask.delegate {
+public class ListFragment extends Fragment implements FetchMoviesTask.Delegate {
 
     private static final String QUERY_TYPE = "query type";
     public static final int POPULAR = 0;

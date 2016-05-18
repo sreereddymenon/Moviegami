@@ -13,6 +13,10 @@ import java.net.HttpURLConnection;
 public final class Utility {
 
     public static final String API_KEY = "api_key";
+    public static final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    public static final String PICTURE_BASE_URL = "http://image.tmdb.org/t/p";
+
+
 
 
     /*

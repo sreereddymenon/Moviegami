@@ -6,23 +6,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
-
-    private static final int TRAILERS = 1000;
-    private static final int REVIEWS = 2000;
-    private static final String API_KEY = "api_key";
+/**
+ * Asynchronously fetches trailers and reviews from the endpoint API and updates the movie
+ * passed as a parameter.
+ */
+public final class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
 
     private Context mContext;
 
@@ -30,6 +29,13 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
         this.mContext = context;
     }
 
+    /*
+     * Method called in background thread to open Http connections to the API,
+     * download and parse a String containing the trailers and reviews and finally
+     * update the movie with them.
+     * @Param: Movie object to be updated.
+     * @Return: void.
+     */
     @Override
     protected Void doInBackground(Movie... params) {
 
@@ -37,21 +43,28 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
         HttpURLConnection trailerConnection;
         HttpURLConnection reviewConnection;
 
-        trailerConnection = makeResourceConnection(movie,TRAILERS);
-        reviewConnection = makeResourceConnection(movie,REVIEWS);
+        trailerConnection = makeResourceConnection(movie,Movie.TRAILER);
+        reviewConnection = makeResourceConnection(movie,Movie.REVIEW);
 
-        String trailerString = downloadResources(trailerConnection);
-        String reviewString = downloadResources(reviewConnection);
+        String trailerString = Utility.downloadResources(trailerConnection);
+        String reviewString = Utility.downloadResources(reviewConnection);
 
-        List<String> trailerList = parseResourceJSON(TRAILERS,trailerString);
-        List<Pair<String,String>> reviewList = parseResourceJSON(REVIEWS, reviewString);
+        List<String> trailerList = parseResourceJSON(Movie.TRAILER, trailerString);
+        List<Pair<String,String>> reviewList = parseResourceJSON(Movie.REVIEW, reviewString);
 
-        movie.setTrailers((ArrayList)trailerList);
-        movie.setReviews((ArrayList) reviewList);
+
+        movie.setTrailers((ArrayList<String>)trailerList);
+        movie.setReviews((ArrayList<Pair<String,String>>) reviewList);
 
         return null;
     }
 
+    /*
+     * Parses the JSON string passed as a parameter according to the integer flag passed. Returns a
+     * list containing the processed resources.
+     * @Params: String resourceString, int resourceType
+     * @Return: List containing the resources.
+     */
     @NonNull
     private List parseResourceJSON(int resourceType, String resourceString) {
         List resultList = new ArrayList();
@@ -62,12 +75,12 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
             jsonArray = jsonObject.getJSONArray("results");
 
             switch (resourceType) {
-                case TRAILERS:
+                case Movie.TRAILER:
                     for (int i=0;i<jsonArray.length();i++) {
                         resultList.add(jsonArray.getJSONObject(i).getString("key"));
                     }
                     break;
-                case REVIEWS:
+                case Movie.REVIEW:
                     for (int i=0;i<jsonArray.length();i++) {
                         String author = jsonArray.getJSONObject(i).getString("author");
                         String content = jsonArray.getJSONObject(i).getString("content");
@@ -79,23 +92,30 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
         return resultList;
     }
 
+    /*
+     * Builds an Uri based on the resource type passed as an integer flag and the movie
+     * for which the resources are fetched. Returns an HttpURLConnection.
+     * @Param: Movie movie, int resourceType.
+     * @Return: HttpURLConnection
+     */
+    @NonNull
     private HttpURLConnection makeResourceConnection(Movie movie, int resourceType) {
         URL url = null;
         Uri uri;
         HttpURLConnection connection = null;
-        Uri.Builder builder = Uri.parse("http://api.themoviedb.org/3/movie")
+        Uri.Builder builder = Uri.parse(Utility.MOVIES_BASE_URL)
                 .buildUpon()
                 .appendPath(String.valueOf(movie.getMovieId()));
 
         switch (resourceType) {
-            case TRAILERS:
+            case Movie.TRAILER:
                 uri = builder.appendPath("videos")
-                        .appendQueryParameter(API_KEY,mContext.getString(R.string.api_key))
+                        .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
                         .build();
                 break;
-            case REVIEWS:
+            case Movie.REVIEW:
                 uri = builder.appendPath("reviews")
-                        .appendQueryParameter(API_KEY,mContext.getString(R.string.api_key))
+                        .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
                         .build();
                 break;
             default:
@@ -112,30 +132,5 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @NonNull private String downloadResources(HttpURLConnection resourceConnection) {
-        BufferedReader reader = null;
-        InputStreamReader streamReader = null;
-        StringBuilder builder = new StringBuilder();
-        String line = null;
-        try {
-            streamReader = new InputStreamReader(resourceConnection.getInputStream());
-            reader = new BufferedReader(streamReader);
-            while ((line = reader.readLine()) != null) {
-                builder.append(line + "%n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-                streamReader.close();
-                resourceConnection.disconnect();
-            } catch (IOException|NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-        return builder.toString();
     }
 }

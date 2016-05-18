@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_fast_rewind_black_translucid.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_fast_rewind_black_translucid.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_pause_black_translucid.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_pause_black_translucid.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_calendar.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_calendar.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_star_border_black.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_star_border_black.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_fast_forward_black_translucid.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_fast_forward_black_translucid.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_person_black_translucid.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_person_black_translucid.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/drawable-anydpi-v21/ic_play_arrow_black_translucid.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_play_arrow_black_translucid.xml"
+    }
+]

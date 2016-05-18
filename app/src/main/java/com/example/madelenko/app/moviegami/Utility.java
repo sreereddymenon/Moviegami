@@ -1,11 +1,20 @@
 package com.example.madelenko.app.moviegami;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
+
+import com.example.madelenko.app.moviegami.datalayer.MovieProvider;
+import com.example.madelenko.app.moviegami.datalayer.MovieTables;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 /**
  * Class containing utility methods and parameters.
@@ -48,5 +57,112 @@ public final class Utility {
             }
         }
         return builder.toString();
+    }
+
+    /*
+     * Retrieves an array of Movie objects from the database, or null, if there aren't any movies.
+     * @Param: Context context.
+     * @Return: Movie[] or null if the database is empty.
+     */
+    @Nullable
+    public static Movie[] loadMoviesFromDb(Context context) {
+        Cursor cursor = context.getContentResolver().query(
+                MovieProvider.Movies.MOVIES,
+                null,
+                null,
+                null,
+                null
+        );
+        if (cursor == null) {return null;}
+        Movie[] movies = new Movie[cursor.getCount()];
+        int counter = 0;
+        while (cursor.moveToNext()) {
+            Movie movie = Movie.makeMovie(
+                    cursor.getInt(cursor.getColumnIndex(MovieTables.MovieColumns._ID)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.TITLE)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.POSTER)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.DATE)),
+                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.SYNOPSIS)),
+                    cursor.getFloat(cursor.getColumnIndex(MovieTables.MovieColumns.RATING))
+            );
+            movies[counter++] = movie;
+            loadResourcesFromDb(Movie.TRAILER,movie,context);
+            loadResourcesFromDb(Movie.REVIEW,movie, context);
+        }
+        cursor.close();
+        return movies;
+    }
+
+
+    /*
+     * Helper method to fetch trailers or reviews from the database and adding them to
+     * the movie objects retrieved by the loadMoviesFromDb method. The type of resource to be
+     * fetched depends on an integer flag passed as a parameter.
+     * @Param: int resourceType, a flag describing the type of resource to be fetched; Movie movie,
+     * Context context.
+     * @Return: void.
+     */
+    private static void loadResourcesFromDb(int resourceType, Movie movie,Context context) {
+        Uri contentUri = null;
+        switch (resourceType) {
+            case Movie.TRAILER:
+                contentUri = MovieProvider.Trailers.withIdTrailers(movie.getMovieId());
+                break;
+            case Movie.REVIEW:
+                contentUri = MovieProvider.Reviews.withIdReviews(movie.getMovieId());
+                break;
+            default:
+                throw new IllegalArgumentException("Unidentified type of resource.");
+        }
+        Cursor cursor = context.getContentResolver()
+                .query(
+                        contentUri,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+        if (cursor == null) {return;}
+        addResourcesToMovie(resourceType, cursor,movie);
+        cursor.close();
+    }
+
+    /*
+     * Helper method to include the resources fetched by loadResourcesFromDb to a Movie object.
+     * It takes a flag as a parameter to indicate wether it has to include reviews or trailers.
+     * @Param: int resourceType, a flag indicating the type of resources to bind; Cursor cursor, the
+     * cursor from which the resources will be extracted; Movie movie, the object to which the
+     * resources will be bound.
+     * @Return: void.
+     */
+    private static void addResourcesToMovie(int resourceType, @NonNull Cursor cursor, Movie movie) {
+        switch (resourceType) {
+            case Movie.TRAILER:
+                ArrayList<String> trailerList = new ArrayList<String>();
+                while (cursor.moveToNext()) {
+                    trailerList.add(
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.TrailerColumns.VIDEO))
+                    );
+                }
+                movie.setTrailers(trailerList);
+                break;
+            case Movie.REVIEW:
+                ArrayList<Pair<String,String>> reviewList = new ArrayList<Pair<String, String>>();
+                while (cursor.moveToNext()) {
+                    reviewList.add(new Pair<String, String>(
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.ReviewColumns.AUTHOR)),
+                            cursor.getString(cursor.getColumnIndex(
+                                    MovieTables.ReviewColumns.CONTENT))
+
+                    ));
+                }
+                movie.setReviews(reviewList);
+                break;
+            default:
+                throw new IllegalArgumentException("Unidentified type of resource.");
+        }
+        cursor.close();
     }
 }

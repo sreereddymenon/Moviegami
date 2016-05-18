@@ -17,7 +17,11 @@ import com.example.madelenko.app.moviegami.datalayer.MovieTables;
 
 import java.util.ArrayList;
 
-
+/**
+ * UI component used to display a recyclerview containing movie objects. It can fetch
+ * the movies asynchronously from the internet or it can process and display the movies received
+ * from another source through its implementation of the FetchMoviesTask.Delegate interface.
+ */
 public class ListFragment extends Fragment implements FetchMoviesTask.Delegate {
 
     private static final String QUERY_TYPE = "query type";
@@ -27,14 +31,11 @@ public class ListFragment extends Fragment implements FetchMoviesTask.Delegate {
 
 
     private RecyclerView mRecyclerView;
-    private int mListType;
-
-
-    public ListFragment() {}
+    private int mMovieType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListType = this.getArguments().getInt(QUERY_TYPE);
+        mMovieType = this.getArguments().getInt(QUERY_TYPE);    // Decides what movies to fetch.
         super.onCreate(savedInstanceState);
     }
 
@@ -52,98 +53,19 @@ public class ListFragment extends Fragment implements FetchMoviesTask.Delegate {
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView);
 
-        if (mListType == HIGHEST_RATED || mListType == POPULAR) {
+        /*
+         * If the fragment corresponds to favorite movies, the data is retrieved from our
+         * database. If not, it is fetched from the internet.
+         */
+        if (mMovieType == HIGHEST_RATED || mMovieType == POPULAR) {
             requestMovies();
-        } else if (mListType == FAVORITES) {
-            loadMoviesFromDb();
+        } else if (mMovieType == FAVORITES) {
+            Movie[] movies = Utility.loadMoviesFromDb(getContext());
+            processMovies(movies);
         }
 
         return rootView;
     }
-
-    private void loadMoviesFromDb() {
-        Cursor cursor = getActivity().getContentResolver().query(
-                MovieProvider.Movies.MOVIES,
-                null,
-                null,
-                null,
-                null
-        );
-        if (cursor == null) {return;}
-        Movie[] movies = new Movie[cursor.getCount()];
-        int counter = 0;
-        while (cursor.moveToNext()) {
-            Movie movie = Movie.makeMovie(
-                    cursor.getInt(cursor.getColumnIndex(MovieTables.MovieColumns._ID)),
-                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.TITLE)),
-                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.POSTER)),
-                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.DATE)),
-                    cursor.getString(cursor.getColumnIndex(MovieTables.MovieColumns.SYNOPSIS)),
-                    cursor.getFloat(cursor.getColumnIndex(MovieTables.MovieColumns.RATING))
-            );
-            movies[counter++] = movie;
-            loadResourcesFromDb(Movie.TRAILER,movie);
-            loadResourcesFromDb(Movie.REVIEW,movie);
-        }
-        processMovies(movies);
-        cursor.close();
-    }
-
-    private void loadResourcesFromDb(int resourceType, Movie movie) {
-        Uri contentUri = null;
-        switch (resourceType) {
-            case Movie.TRAILER:
-                contentUri = MovieProvider.Trailers.withIdTrailers(movie.getMovieId());
-                break;
-            case Movie.REVIEW:
-                contentUri = MovieProvider.Reviews.withIdReviews(movie.getMovieId());
-                break;
-            default:
-                throw new IllegalArgumentException("Unidentified type of resource.");
-        }
-        Cursor cursor = getActivity().getContentResolver()
-                .query(
-                        contentUri,
-                        null,
-                        null,
-                        null,
-                        null
-                );
-        if (cursor == null) {return;}
-        addResourcesToMovie(resourceType, cursor,movie);
-        cursor.close();
-    }
-
-    private void addResourcesToMovie(int resourceType, @NonNull Cursor cursor, Movie movie) {
-        switch (resourceType) {
-            case Movie.TRAILER:
-                ArrayList<String> trailerList = new ArrayList<String>();
-                while (cursor.moveToNext()) {
-                    trailerList.add(
-                            cursor.getString(cursor.getColumnIndex(
-                                    MovieTables.TrailerColumns.VIDEO))
-                    );
-                }
-                movie.setTrailers(trailerList);
-                break;
-            case Movie.REVIEW:
-                ArrayList<Pair<String,String>> reviewList = new ArrayList<Pair<String, String>>();
-                while (cursor.moveToNext()) {
-                    reviewList.add(new Pair<String, String>(
-                            cursor.getString(cursor.getColumnIndex(
-                                    MovieTables.ReviewColumns.AUTHOR)),
-                            cursor.getString(cursor.getColumnIndex(
-                                    MovieTables.ReviewColumns.CONTENT))
-
-                    ));
-                }
-                movie.setReviews(reviewList);
-                break;
-            default:
-                throw new IllegalArgumentException("Unidentified type of resource.");
-        }
-    }
-
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new MovieAdapter((MovieListActivity) getActivity()));
@@ -151,7 +73,7 @@ public class ListFragment extends Fragment implements FetchMoviesTask.Delegate {
 
     private void requestMovies() {
         if (mRecyclerView.getAdapter().getItemCount() == 0) {
-            new FetchMoviesTask(this,getContext()).execute(mListType);
+            new FetchMoviesTask(this,getContext()).execute(mMovieType);
         }
     }
 

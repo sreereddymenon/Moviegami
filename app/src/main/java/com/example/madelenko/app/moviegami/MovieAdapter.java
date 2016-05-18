@@ -36,6 +36,7 @@ final class MovieAdapter
         this.mActivity = activity;
     }
 
+    // Inflates a layout resource into a View object and uses it to create a ViewHolder.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -43,6 +44,10 @@ final class MovieAdapter
         return new ViewHolder(view);
     }
 
+    /*
+     * Sets the data for each member of the ViewHolder and adds a listener
+     * to launch the details activity with the selected Movie.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Movie movie = mMovies[position];
@@ -59,7 +64,7 @@ final class MovieAdapter
             public void onClick(View v) {
                 if (mActivity.isTwoPaneMode()) {
                     Bundle arguments = new Bundle();
-                    arguments.putParcelable(MovieListActivity.MOVIE,movie);
+                    arguments.putParcelable(MovieListActivity.MOVIE, movie);
                     MovieDetailFragment fragment = new MovieDetailFragment();
                     fragment.setArguments(arguments);
                     mActivity.getSupportFragmentManager().beginTransaction()
@@ -75,6 +80,9 @@ final class MovieAdapter
         });
     }
 
+    /*
+     * Helper method that styles the Rating bar inside the viewholder when it is bound.
+     */
     private void setStarColor(ViewHolder holder) {
         LayerDrawable stars = (LayerDrawable) holder.mRatingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
@@ -84,15 +92,20 @@ final class MovieAdapter
         );
     }
 
+    // Returns the number of views nested inside of the RecyclerView
     @Override
     public int getItemCount() {
         return mMovies==null? 0 : mMovies.length;
     }
 
+
+    /**
+     * Objects of this class describe the contents of an item inside a RecyclerView.
+     */
     final class ViewHolder extends RecyclerView.ViewHolder {
-        public final ImageView mImageView;
-        public final TextView mTitleView;
-        public final RatingBar mRatingBar;
+        private final ImageView mImageView;
+        private final TextView mTitleView;
+        private final RatingBar mRatingBar;
 
 
         public ViewHolder(View view) {

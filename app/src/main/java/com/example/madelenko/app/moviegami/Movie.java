@@ -2,6 +2,7 @@ package com.example.madelenko.app.moviegami;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
@@ -10,7 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-final class Movie implements Parcelable{
+/**
+ * Non-extensible class that represents a movie object. Objects of this class can be passed from
+ * one activity to another after the first one is destroyed through its implementation of the
+ * Parcelable interface.
+ */
+public final class Movie implements Parcelable{
 
     private int movieId;
     private String originalTitle;
@@ -27,10 +33,12 @@ final class Movie implements Parcelable{
     public static final String SIZE_LARGE = "w780";
     public static final String SIZE_ORIGINAL = "original";
 
+    // Marks the review currently accessed by currentReviewAuthor and currentReviewContent
     private int mReviewIndex = 0;
     private String youtubePrefix = "https://www.youtube.com/watch?v=";
 
 
+    // Private constructor called by static factory methods
     private Movie(int movieId, String originalTitle, String posterPath,
                  String releaseDate, String synopsis, double userRating) {
         this.movieId = movieId;
@@ -43,56 +51,61 @@ final class Movie implements Parcelable{
         this.reviewList = null;
     }
 
-    static Movie makeMovie(int movieId, String originalTitle, String posterPath,
+    // Public factory method to create a simple movie, without trailers or reviews.
+    public static Movie makeMovie(int movieId, String originalTitle, String posterPath,
                            String releaseDate, String synopsis, double userRating) {
 
         return new Movie(movieId, originalTitle, posterPath, releaseDate, synopsis, userRating);
     }
 
-    // Getters
+    // Public factory method to create a simple movie and set its reviews and trailers.
+    public static Movie makeMovieWithResources(
+            int movieId,
+            String originalTitle,
+            String posterPath,
+            String releaseDate,
+            String synopsis,
+            double userRating,
+            ArrayList<String> trailerList,
+            ArrayList<Pair<String,String>> reviewList) {
 
-    protected int getMovieId() {
-        return movieId;
+        Movie movie = new Movie(movieId,originalTitle,posterPath,releaseDate,synopsis,userRating);
+        movie.setTrailers(trailerList);
+        movie.setReviews(reviewList);
+
+        return movie;
     }
 
-    protected String getOriginalTitle() {
-        return originalTitle;
-    }
 
-    protected String getPosterPath() {
-        return posterPath;
-    }
+    // Getter Methods
+    public int getMovieId() {return movieId;}
 
-    protected String getReleaseDate() {
-        return releaseDate;
-    }
+    public String getOriginalTitle() {return originalTitle;}
 
-    protected List getReviewList() {
+    public String getPosterPath() {return posterPath;}
 
-        return reviewList==null? null : (ArrayList) reviewList.clone();
-    }
+    public String getReleaseDate() {return releaseDate;}
 
-    protected String getSynopsis() {
-        return synopsis;
-    }
+    public String getSynopsis() {return synopsis;}
 
-    protected List getTrailerList() {
-        return trailerList==null? null : (ArrayList) trailerList.clone();
-    }
+    public double getUserRating() {return userRating;}
 
-    protected double getUserRating() {
-        return userRating;
-    }
+    // We return a clone of the original list to prevent the client from modifying the original list.
+    @Nullable
+    public List getReviewList() {return reviewList==null? null : (ArrayList) reviewList.clone();}
 
-    //Setters
+    @Nullable
+    public List getTrailerList() {return trailerList==null? null : (ArrayList) trailerList.clone();}
 
-    void setReviews(ArrayList<Pair<String, String>> reviewList) {
+
+    //Setter Methods
+    public void setReviews(ArrayList<Pair<String, String>> reviewList) {
         if (this.reviewList == null) {
             this.reviewList = reviewList;
         }
     }
 
-    void setTrailers(ArrayList<String> trailerList) {
+    public void setTrailers(ArrayList<String> trailerList) {
         if (this.trailerList == null) {
             this.trailerList = trailerList;
         }
@@ -106,6 +119,7 @@ final class Movie implements Parcelable{
                 '}';
     }
 
+
     public boolean hasTrailers() {
         return getTrailerList() !=null && getTrailerList().size() > 0;
     }
@@ -114,31 +128,51 @@ final class Movie implements Parcelable{
         return getReviewList() !=null && getReviewList().size() > 0;
     }
 
+    /*
+     * Moves to the index of the next review. Useful to iterate over review objects
+     * and offer its author and content variables via currentReviewAuthor and currentReviewContent.
+     */
     public void nextReview() {
         if (!hasReviews()) return;
         mReviewIndex = (mReviewIndex +1) % getReviewList().size();
     }
 
+    @Nullable
     private Pair<String,String> currentReview() {
         if (!hasReviews()) return null;
         return (Pair<String,String>) reviewList.get(mReviewIndex);
     }
 
+    /**
+     * Returns the author field of the review at the current position, or null
+     * if the list of reviews is empty.
+     */
+    @Nullable
     public String currentReviewAuthor() {
         return currentReview()==null? null : reviewList.get(mReviewIndex).first;
     }
-
+    /**
+     * Returns the content field of the review at the current position, or null
+     * if the list of reviews is empty.
+     */
+    @Nullable
     public String currentReviewContent() {
         return currentReview()==null? null : reviewList.get(mReviewIndex).second;
     }
 
+    /**
+     * Returns a String containing the Url of the Trailer at the specified position, or null
+     * if the movie doesn't have any trailers.
+     */
+    @Nullable
     public String trailerAtPosition(int position) {
         return hasTrailers()? youtubePrefix + trailerList.get(position) : null;
     }
 
 
-    // Implementation of Parcelable
 
+
+    // Parcelable constructor to be used by the creator object.
     private Movie(Parcel in) {
         movieId = in.readInt();
         originalTitle = in.readString();
@@ -146,9 +180,10 @@ final class Movie implements Parcelable{
         synopsis = in.readString();
         userRating = in.readDouble();
         releaseDate = in.readString();
-        trailerList = (ArrayList<String>) loadTrailers(in);
+        trailerList = (ArrayList<String>) in.readSerializable();
         reviewList = (ArrayList<Pair<String,String>>) loadReviews(in);
     }
+
 
     static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
@@ -179,21 +214,16 @@ final class Movie implements Parcelable{
         writeReviewsToParcel(dest);
     }
 
+    // If the Movie has trailers, they are written to the parcel.
     private void writeTrailersToParcel(Parcel dest) {
-        if (this.trailerList != null && this.trailerList.size()>0) {
+        if (hasTrailers()) {
             dest.writeSerializable(trailerList);
         }
     }
 
-    public List<String> loadTrailers(Parcel in) {
-        List<String> result;
-        result = (ArrayList<String>) in.readSerializable();
-        return result;
-    }
-
-    public void writeReviewsToParcel(Parcel dest) {
-        if (this.reviewList != null && this.reviewList.size()>0) {
-
+    // If the Movie has reviews, they are written to the parcel
+    private void writeReviewsToParcel(Parcel dest) {
+        if (hasReviews()) {
             List<String> authors= new ArrayList<>();
             List<String> content = new ArrayList<>();
 
@@ -208,7 +238,8 @@ final class Movie implements Parcelable{
         }
     }
 
-    public List<Pair<String, String>> loadReviews(Parcel in) {
+    // Retrieves the reviews from the parcel and stores them in the correct format.
+    private List<Pair<String, String>> loadReviews(Parcel in) {
         List<String> authors = new ArrayList<>();
         List<String> content = new ArrayList<>();
         List<Pair<String,String>> result = new ArrayList<>();

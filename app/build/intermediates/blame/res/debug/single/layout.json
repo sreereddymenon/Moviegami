@@ -128,12 +128,12 @@
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_select_dialog_material.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/design_navigation_item_header.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_navigation_item_header.xml"
-    },
-    {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/movie_list.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout/movie_list.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/design_navigation_item_header.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_navigation_item_header.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",

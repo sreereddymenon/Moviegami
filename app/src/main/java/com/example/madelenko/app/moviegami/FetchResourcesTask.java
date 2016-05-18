@@ -110,12 +110,12 @@ public final class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
         switch (resourceType) {
             case Movie.TRAILER:
                 uri = builder.appendPath("videos")
-                        .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
+                        .appendQueryParameter(Utility.API_KEY,BuildConfig.THE_MOVIE_DATABASE_API_KEY)
                         .build();
                 break;
             case Movie.REVIEW:
                 uri = builder.appendPath("reviews")
-                        .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
+                        .appendQueryParameter(Utility.API_KEY,BuildConfig.THE_MOVIE_DATABASE_API_KEY)
                         .build();
                 break;
             default:

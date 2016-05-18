@@ -41,7 +41,10 @@ import java.util.List;
 
 import static com.google.android.youtube.player.YouTubePlayer.*;
 
-
+/**
+ * Fragment that displays details for a Movie object. It features a cardview for displaying
+ * videos and another one for reviews.
+ */
 public class MovieDetailFragment extends Fragment {
 
     private static final String MESSAGE = "message";
@@ -88,9 +91,9 @@ public class MovieDetailFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     try {
-                        insertMovieIntoDatabase();
-                        insertResourcesIntoDatabase(Movie.TRAILER);
-                        int result = insertResourcesIntoDatabase(Movie.REVIEW);
+                        Utility.insertMovieIntoDatabase(mMovie, getContext());
+                        Utility.insertResourcesIntoDatabase(Movie.TRAILER, mMovie,getContext());
+                        Utility.insertResourcesIntoDatabase(Movie.REVIEW, mMovie, getContext());
                     } catch (SQLException e) {}
                 }
             });
@@ -110,9 +113,14 @@ public class MovieDetailFragment extends Fragment {
         loadYoutubeFragment();
         setButtonCallbacks(rootView);
         setTrailerButtonCallbacks(rootView);
+
         return rootView;
     }
 
+    /*
+     * Helper method that dynamically sets the height of the YouTubeFragment to respect the
+     * 16:9 aspect ratio.
+     */
     private void resizeVideoContainer(View rootView) {
         FrameLayout youtubeContainer = (FrameLayout)rootView
                 .findViewById(R.id.youtube_fragment_target);
@@ -123,6 +131,9 @@ public class MovieDetailFragment extends Fragment {
         params.height = (int) Math.round(params.width * (1/VIDEO_RATIO));
     }
 
+    /*
+     * Defines the actions performed by the buttons in the Review CardView.
+     */
     private void setButtonCallbacks(final View rootView) {
         Button buttonShare = (Button)rootView.findViewById(R.id.action_share);
         Button buttonNext = (Button)rootView.findViewById(R.id.action_next);
@@ -152,6 +163,10 @@ public class MovieDetailFragment extends Fragment {
         });
     }
 
+    /*
+     * Helper method used to bind data from the associated movie to the proper views in the
+     * hierarchy.
+     */
     private void bindViewValues(View rootView) {
         TextView overviewContent = (TextView) rootView.findViewById(R.id.overview_content);
         TextView releaseDate = (TextView) rootView.findViewById(R.id.release_date_textview);
@@ -173,6 +188,10 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
+    /*
+     * sets the updateVideoStatus function as a callback for the buttons that control the
+     * YouTubePlayer's flow.
+     */
     private void setTrailerButtonCallbacks(final View rootView) {
         ImageButton previous = (ImageButton)rootView.findViewById(R.id.cardview_action_previous);
         ImageButton play = (ImageButton)rootView.findViewById(R.id.cardview_action_play);
@@ -199,6 +218,10 @@ public class MovieDetailFragment extends Fragment {
         });
     }
 
+    /*
+     * Helper method that attaches a YouTubeFragment to a target FrameLayout and
+     * defines its style. Supplies a list of videos to be cued by the fragment.
+     */
     private void loadYoutubeFragment() {
         YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
         fragment.setRetainInstance(true);
@@ -207,7 +230,7 @@ public class MovieDetailFragment extends Fragment {
                 .replace(R.id.youtube_fragment_target, fragment)
                 .commit();
 
-        fragment.initialize("AIzaSyAp8HgLng6TaV0xlcWN3iv8s_S_XZZGfBs",
+        fragment.initialize(BuildConfig.YOUTUBE_API_KEY,
                 new OnInitializedListener() {
             @Override
             public void onInitializationSuccess(Provider provider,
@@ -230,7 +253,12 @@ public class MovieDetailFragment extends Fragment {
         });
     }
 
-    void updateVideoStatus(View v) {
+    /*
+     * Updates the status of the YoutubeFragment associated with this fragment, according to
+     * the view that is passed as a parameter, I.e. the button clicked. Functionality has been
+     * defined for three buttons: previous, next and play.
+     */
+    private void updateVideoStatus(View v) {
         int tag = v.getId();
         if (!mMovie.hasTrailers()) {return;}
 
@@ -267,62 +295,5 @@ public class MovieDetailFragment extends Fragment {
             default:
                 throw new IllegalArgumentException("Undefined button type.");
         }
-    }
-
-    private int insertResourcesIntoDatabase(int resourceType) {
-        List resources = null;
-        Uri insertionUri = null;
-
-        switch (resourceType) {
-            case Movie.TRAILER:
-                resources = mMovie.getTrailerList();
-                insertionUri = MovieProvider.Trailers.withIdTrailers(mMovie.getMovieId());
-                if (resources != null) {
-                    ContentValues[] contentValuesArray = new ContentValues[resources.size()];
-                    for (int i=0;i<resources.size();i++) {
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(TrailerColumns.MOVIE_ID, mMovie.getMovieId());
-                        contentValues.put(TrailerColumns.VIDEO, (String)resources.get(i));
-                        contentValuesArray[i] = contentValues;
-                    }
-                    return mActivity.getContentResolver().bulkInsert(
-                            insertionUri,
-                            contentValuesArray
-                    );
-                }
-                break;
-            case Movie.REVIEW:
-                resources = mMovie.getReviewList();
-                insertionUri = MovieProvider.Reviews.withIdReviews(mMovie.getMovieId());
-                if (resources != null) {
-                    ContentValues[] contentValuesArray = new ContentValues[resources.size()];
-                    for (int i=0;i<resources.size();i++) {
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(MovieTables.ReviewColumns.MOVIE_ID, mMovie.getMovieId());
-                        contentValues.put(MovieTables.ReviewColumns.AUTHOR,(String) ((Pair)resources.get(i)).first);
-                        contentValues.put(MovieTables.ReviewColumns.CONTENT,(String) ((Pair)resources.get(i)).second);
-                        contentValuesArray[i] = contentValues;
-                    }
-                    return mActivity.getContentResolver().bulkInsert(
-                            insertionUri,
-                            contentValuesArray
-                    );
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Undefined resource type.");
-        }
-        return 0;
-    }
-
-    private Uri insertMovieIntoDatabase() {
-        ContentValues values = new ContentValues();
-        values.put(MovieColumns._ID, mMovie.getMovieId());
-        values.put(MovieColumns.TITLE, mMovie.getOriginalTitle());
-        values.put(MovieColumns.POSTER, mMovie.getPosterPath());
-        values.put(MovieColumns.SYNOPSIS, mMovie.getSynopsis());
-        values.put(MovieColumns.RATING, mMovie.getUserRating());
-        values.put(MovieColumns.DATE, mMovie.getReleaseDate());
-        return mActivity.getContentResolver().insert(MovieProvider.Movies.MOVIES, values);
     }
 }

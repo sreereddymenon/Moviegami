@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Activity that will host several fragments with the contents of a ListFragment. The main
+ * flow will be controlled by a TabLayout connected to a ViewPager.
+ */
 public class MovieListActivity extends AppCompatActivity {
 
     public static final String POPULAR = "popular";
@@ -43,9 +47,12 @@ public class MovieListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    // Returns the two-pane mode status
     public boolean isTwoPaneMode() {
         return mTwoPane;
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +66,17 @@ public class MovieListActivity extends AppCompatActivity {
 
         if (findViewById(R.id.movie_detail_container) != null) {
             // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
+            // large-screen layouts (res/values-sw600dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
     }
 
+    /*
+     * Adds tabs to our TabLayout, sets an adapter for the ViewPager and connects
+     * the ViewPager to the TabLayout
+     */
     private void setupTabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

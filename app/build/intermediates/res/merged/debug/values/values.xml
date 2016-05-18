@@ -300,7 +300,6 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="action_next">Next</string>
     <string name="action_share">Share</string>
-    <string name="api_key">a2ad4268d92eb984f96945ddfda011ca</string>
     <string name="app_name">Moviegami</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>

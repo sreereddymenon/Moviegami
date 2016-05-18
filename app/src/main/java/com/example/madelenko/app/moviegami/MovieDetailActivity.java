@@ -16,7 +16,10 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-
+/**
+ * Activity for displaying data related with a specified Movie.
+ * It contains a MovieDetailFragment that will provide the Movie related content.
+ */
 public class MovieDetailActivity extends AppCompatActivity {
 
     Movie mMovie;
@@ -28,6 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_movie_detail);
 
+        // If the activity has just been created, we fetch the Movie object from the related intent
         if (savedInstanceState == null) {
 
             Intent intent = getIntent();
@@ -40,7 +44,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             mFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movie_detail_container, mFragment)
+                    .add(R.id.movie_detail_container, mFragment)    // Attach the fragment to the activity
                     .commit();
 
         }

@@ -1,5 +1,6 @@
 package com.example.madelenko.app.moviegami;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class containing utility methods and parameters.
@@ -164,5 +166,62 @@ public final class Utility {
                 throw new IllegalArgumentException("Unidentified type of resource.");
         }
         cursor.close();
+    }
+
+    public static Uri insertMovieIntoDatabase(Movie movie, Context context) {
+        ContentValues values = new ContentValues();
+        values.put(MovieTables.MovieColumns._ID, movie.getMovieId());
+        values.put(MovieTables.MovieColumns.TITLE, movie.getOriginalTitle());
+        values.put(MovieTables.MovieColumns.POSTER, movie.getPosterPath());
+        values.put(MovieTables.MovieColumns.SYNOPSIS, movie.getSynopsis());
+        values.put(MovieTables.MovieColumns.RATING, movie.getUserRating());
+        values.put(MovieTables.MovieColumns.DATE, movie.getReleaseDate());
+        return context.getContentResolver().insert(MovieProvider.Movies.MOVIES, values);
+    }
+
+    public static int insertResourcesIntoDatabase(int resourceType, Movie movie, Context context) {
+        List resources = null;
+        Uri insertionUri = null;
+
+        switch (resourceType) {
+            case Movie.TRAILER:
+                resources = movie.getTrailerList();
+                insertionUri = MovieProvider.Trailers.withIdTrailers(movie.getMovieId());
+                if (resources != null) {
+                    ContentValues[] contentValuesArray = new ContentValues[resources.size()];
+                    for (int i=0;i<resources.size();i++) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(MovieTables.TrailerColumns.MOVIE_ID, movie.getMovieId());
+                        contentValues.put(MovieTables.TrailerColumns.VIDEO, (String)resources.get(i));
+                        contentValuesArray[i] = contentValues;
+                    }
+                    return context.getContentResolver().bulkInsert(
+                            insertionUri,
+                            contentValuesArray
+                    );
+                }
+                break;
+            case Movie.REVIEW:
+                resources = movie.getReviewList();
+                insertionUri = MovieProvider.Reviews.withIdReviews(movie.getMovieId());
+                if (resources != null) {
+                    ContentValues[] contentValuesArray = new ContentValues[resources.size()];
+                    for (int i=0;i<resources.size();i++) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(MovieTables.ReviewColumns.MOVIE_ID, movie.getMovieId());
+                        contentValues.put(MovieTables.ReviewColumns.AUTHOR,(String) ((Pair)resources.get(i)).first);
+                        contentValues.put(MovieTables.ReviewColumns.CONTENT,(String) ((Pair)resources.get(i)).second);
+                        contentValuesArray[i] = contentValues;
+                    }
+                    return context.getContentResolver().bulkInsert(
+                            insertionUri,
+                            contentValuesArray
+                    );
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Undefined resource type.");
+        }
+        return 0;
     }
 }

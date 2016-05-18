@@ -89,7 +89,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
         return Uri.parse(Utility.MOVIES_BASE_URL)
                 .buildUpon()
                 .appendPath(path)
-                .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
+                .appendQueryParameter(Utility.API_KEY, BuildConfig.THE_MOVIE_DATABASE_API_KEY)
                 .build();
     }
 

@@ -6,5 +6,9 @@
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout-sw600dp-v13/movie_list.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout-sw600dp/movie_list.xml"
+    },
+    {
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/layout-sw600dp-v13/activity_movie_list.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/src/main/res/layout-sw600dp/activity_movie_list.xml"
     }
 ]

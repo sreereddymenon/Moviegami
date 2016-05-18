@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="send_message">Hey! I just found this movie called %1$s.
+        You should really it out, it\'s awesome!</string>
+    <string name="trailer_appendix">Look at this trailer %1$s.</string>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

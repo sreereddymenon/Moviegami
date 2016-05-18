@@ -55,8 +55,4 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    void updateVideoStatus(View v) {
-        mFragment.updateVideoStatus(v);
-    }
 }

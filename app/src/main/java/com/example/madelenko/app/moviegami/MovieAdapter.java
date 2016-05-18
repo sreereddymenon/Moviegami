@@ -60,7 +60,6 @@ final class MovieAdapter
                 if (mActivity.isTwoPaneMode()) {
                     Bundle arguments = new Bundle();
                     arguments.putParcelable(MovieListActivity.MOVIE,movie);
-                    arguments.putStringArrayList("TRAILERS", (ArrayList)movie.getTrailerList());
                     MovieDetailFragment fragment = new MovieDetailFragment();
                     fragment.setArguments(arguments);
                     mActivity.getSupportFragmentManager().beginTransaction()
@@ -70,7 +69,6 @@ final class MovieAdapter
                     Context context = v.getContext();
                     Intent intent = new Intent(context, MovieDetailActivity.class);
                     intent.putExtra(MovieListActivity.MOVIE, movie);
-//                    intent.putStringArrayListExtra(TRAILERS_PATH, (ArrayList)movie.getTrailerList());
                     context.startActivity(intent);
                 }
             }

@@ -1,0 +1,6 @@
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/example/madelenko/app/moviegami/FetchResourcesTask$override.class
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/example/madelenko/app/moviegami/MovieDetailFragment$2$override.class
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/example/madelenko/app/moviegami/FetchMoviesTask$override.class
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/example/madelenko/app/moviegami/R$string$override.class
+CHANGED,/home/madelenko/Desktop/Moviegami/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/design/R$string$override.class

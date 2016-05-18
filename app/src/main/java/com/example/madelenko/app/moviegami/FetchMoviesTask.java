@@ -16,12 +16,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+ /*
+ * Asynchronously */
+
 final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
 
-    private static final int POPULAR = 0;
-    private static final int HIGHEST_RATED = 1;
+
     private static final String API_KEY = "api_key";
-    private static final String SIZE = "w342";
 
     private Context mContext;
     private ListFragment mFragment;
@@ -75,10 +76,10 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
     private Uri makeUri(int queryType) {
         String path;
         switch (queryType) {
-            case POPULAR:
+            case ListFragment.POPULAR:
                 path = "popular";
                 break;
-            case HIGHEST_RATED:
+            case ListFragment.HIGHEST_RATED:
                 path = "top_rated";
                 break;
             default:
@@ -115,7 +116,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
 
                 path = movieObject.getString(image);
                 uri = Uri.parse("http://image.tmdb.org/t/p").buildUpon()
-                        .appendPath(SIZE)
+                        .appendPath(Movie.THUMBNAIL_SIZE)
                         .appendEncodedPath(path)
                         .build();
 

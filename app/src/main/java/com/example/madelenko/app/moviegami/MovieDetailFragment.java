@@ -6,17 +6,21 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +45,7 @@ import static com.google.android.youtube.player.YouTubePlayer.*;
 public class MovieDetailFragment extends Fragment {
 
     private static final String MESSAGE = "message";
+    private static final double VIDEO_RATIO = 16.0/9;
     private Movie mMovie;
     private AppCompatActivity mActivity;
     private YouTubePlayer mPlayer;
@@ -54,8 +59,6 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mActivity = (AppCompatActivity)getActivity();
         mMovie = getArguments().getParcelable(MovieListActivity.MOVIE);
-        ArrayList<String> trailers = getArguments().getStringArrayList(MovieAdapter.TRAILERS_PATH);
-        mMovie.setTrailers(trailers);
     }
 
     @Override
@@ -63,9 +66,14 @@ public class MovieDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_detail, container, false);
 
+        resizeVideoContainer(rootView);
+
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.detail_toolbar);
         mActivity.setSupportActionBar(toolbar);
 
+        if (getActivity() instanceof MovieListActivity) {
+            rootView.getLayoutParams().width = 600;
+        }
 
 
         // Show the Up button in the action bar.
@@ -98,10 +106,21 @@ public class MovieDetailFragment extends Fragment {
                         .into((ImageView) appBarLayout.findViewById(R.id.image_stretch_detail));
             }
         }
-        setButtonCallbacks(rootView);
         bindViewValues(rootView);
         loadYoutubeFragment();
+        setButtonCallbacks(rootView);
+        setTrailerButtonCallbacks(rootView);
         return rootView;
+    }
+
+    private void resizeVideoContainer(View rootView) {
+        FrameLayout youtubeContainer = (FrameLayout)rootView
+                .findViewById(R.id.youtube_fragment_target);
+
+        LinearLayout.LayoutParams params =
+                (LinearLayout.LayoutParams)youtubeContainer.getLayoutParams();
+
+        params.height = (int) Math.round(params.width * (1/VIDEO_RATIO));
     }
 
     private void setButtonCallbacks(final View rootView) {
@@ -112,7 +131,15 @@ public class MovieDetailFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(MESSAGE, mMovie.toString());
+                intent.setPackage("com.whatsapp");
+                String message = String.format(
+                        getString(R.string.send_message),mMovie.getOriginalTitle());
+
+                if (mMovie.hasTrailers()) {
+                    message += String.format(
+                            getString(R.string.trailer_appendix), mMovie.trailerAtPosition(0));
+                }
+                intent.putExtra(Intent.EXTRA_TEXT, message);
                 startActivity(intent);
             }
         });
@@ -146,6 +173,32 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
+    private void setTrailerButtonCallbacks(final View rootView) {
+        ImageButton previous = (ImageButton)rootView.findViewById(R.id.cardview_action_previous);
+        ImageButton play = (ImageButton)rootView.findViewById(R.id.cardview_action_play);
+        ImageButton next = (ImageButton)rootView.findViewById(R.id.cardview_action_next);
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVideoStatus(v);
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVideoStatus(v);
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVideoStatus(v);
+            }
+        });
+    }
+
     private void loadYoutubeFragment() {
         YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
         fragment.setRetainInstance(true);
@@ -164,9 +217,8 @@ public class MovieDetailFragment extends Fragment {
                 mPlayer.addFullscreenControlFlag(
                         FULLSCREEN_FLAG_CONTROL_ORIENTATION |
                         FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE);
-                List<String> trailerList = mMovie.getTrailerList();
-                if (trailerList != null && trailerList.size()>0) {
-                    mPlayer.cueVideos(trailerList);
+                if (mMovie.hasTrailers()){
+                    mPlayer.cueVideos(mMovie.getTrailerList());
                 }
             }
             @Override
@@ -180,8 +232,7 @@ public class MovieDetailFragment extends Fragment {
 
     void updateVideoStatus(View v) {
         int tag = v.getId();
-        List<String> trailerList = mMovie.getTrailerList();
-        if (trailerList == null || trailerList.size() <= 0) {return;}
+        if (!mMovie.hasTrailers()) {return;}
 
         switch (tag) {
             case R.id.cardview_action_play:
@@ -196,6 +247,8 @@ public class MovieDetailFragment extends Fragment {
             case R.id.cardview_action_next:
                 if (mPlayer.hasNext()) {
                     mPlayer.next();
+                    ((ImageButton)getView().findViewById(R.id.cardview_action_play))
+                            .setImageResource(R.drawable.ic_pause_black_translucid);
                 } else {
                     Toast.makeText(
                             getContext(),"No more videos available",Toast.LENGTH_SHORT).show();
@@ -204,6 +257,8 @@ public class MovieDetailFragment extends Fragment {
             case R.id.cardview_action_previous:
                 if (mPlayer.hasPrevious()) {
                     mPlayer.previous();
+                    ((ImageButton)getView().findViewById(R.id.cardview_action_play))
+                            .setImageResource(R.drawable.ic_pause_black_translucid);
                 } else {
                     Toast.makeText(
                             getContext(),"First video reached",Toast.LENGTH_SHORT).show();

@@ -4,16 +4,16 @@
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_primary_text_material_light.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_light.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_primary_text_disable_only_material_light.xml"
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_primary_text_disable_only_material_dark.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_secondary_text_material_light.xml",
         "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_secondary_text_material_light.xml"
     },
     {
-        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_dark.xml",
-        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_primary_text_disable_only_material_dark.xml"
+        "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/color/abc_primary_text_disable_only_material_light.xml"
     },
     {
         "merged": "/home/madelenko/Desktop/Moviegami/app/build/intermediates/res/merged/debug/color/abc_primary_text_material_dark.xml",

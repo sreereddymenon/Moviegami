@@ -23,7 +23,9 @@ final class Movie implements Parcelable{
 
     public static final int TRAILER = 1001;
     public static final int REVIEW = 2002;
-    public static final String THUMBNAIL_SIZE = "w342";
+    public static final String SIZE_THUMBNAIL = "w342";
+    public static final String SIZE_LARGE = "w780";
+    public static final String SIZE_ORIGINAL = "original";
 
     private int mReviewIndex = 0;
     private String youtubePrefix = "https://www.youtube.com/watch?v=";

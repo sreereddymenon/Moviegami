@@ -3,33 +3,31 @@ package com.example.madelenko.app.moviegami;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
- /*
- * Asynchronously */
+/**
+ * Asynchronously fetches movies from the endpoint API. Delegates the processing
+ * of the results to an object implementing its inner interface "Delegate". On completion,
+ * launches tasks to retrieve movie trailers and reviews.
+ */
 
 final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
 
-
-    private static final String API_KEY = "api_key";
-
+    private static final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    private static final String PICTURE_BASE_URL = "http://image.tmdb.org/t/p";
     private Context mContext;
-    private ListFragment mFragment;
+    private delegate mDelegate;
 
-    public FetchMoviesTask(ListFragment fragment) {
-        this.mFragment = fragment;
-        this.mContext = fragment.getContext();
+    public FetchMoviesTask(delegate delegate, Context context) {
+        this.mDelegate = delegate;
+        this.mContext = context;
     }
 
     @Override
@@ -49,7 +47,7 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
             connection.setRequestMethod("GET");
             connection.connect();
 
-            resultString = downloadResources(connection);
+            resultString = Utility.downloadResources(connection);
 
             movieArray = parseJSONmovies(resultString);
 
@@ -62,17 +60,22 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
                 e.printStackTrace();
             }
         }
-
         return movieArray;
     }
 
     @Override
     protected void onPostExecute(Movie[] movies) {
-        mFragment.setMovies(movies);
-        fetchResources(movies);
+        mDelegate.processMovies(movies);    // Object responsible for processing results
+        fetchResources(movies);             // Update trailers and reviews of movies
         super.onPostExecute(movies);
     }
 
+    /*
+     * Helper method that creates a URI with the appropriate
+     * path segments to retrieve the correct movie objects.
+     * @Param: A constant defining the type of movies to query for.
+     * @Return: An Uri from which we will retrieve the movies.
+     */
     private Uri makeUri(int queryType) {
         String path;
         switch (queryType) {
@@ -85,13 +88,18 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
             default:
                 throw new IllegalArgumentException("Undefined query type");
         }
-        return Uri.parse("http://api.themoviedb.org/3/movie/")
+        return Uri.parse(MOVIES_BASE_URL)
                 .buildUpon()
                 .appendPath(path)
-                .appendQueryParameter(API_KEY,mContext.getString(R.string.api_key))
+                .appendQueryParameter(Utility.API_KEY,mContext.getString(R.string.api_key))
                 .build();
     }
 
+    /*
+     * Helper method that converts a JSON string into an array of Movie objects.
+     * @Param: String in JSON format containing Movie object structures.
+     * @Return: An array of Movie objects.
+     */
     private Movie[] parseJSONmovies(String inputString) {
 
         String results = "results";
@@ -115,8 +123,8 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
                 JSONObject movieObject = array.getJSONObject(i);
 
                 path = movieObject.getString(image);
-                uri = Uri.parse("http://image.tmdb.org/t/p").buildUpon()
-                        .appendPath(Movie.THUMBNAIL_SIZE)
+                uri = Uri.parse(PICTURE_BASE_URL).buildUpon()
+                        .appendPath(Movie.SIZE_THUMBNAIL)
                         .appendEncodedPath(path)
                         .build();
 
@@ -134,39 +142,24 @@ final class FetchMoviesTask extends AsyncTask<Integer, Void, Movie[]> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return movieArray;
     }
 
-    @NonNull
-    private String downloadResources(HttpURLConnection resourceConnection) {
-        BufferedReader reader = null;
-        InputStreamReader streamReader = null;
-        StringBuilder builder = new StringBuilder();
-        String line = null;
-        try {
-            streamReader = new InputStreamReader(resourceConnection.getInputStream());
-            reader = new BufferedReader(streamReader);
-            while ((line = reader.readLine()) != null) {
-                builder.append(line + "%n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-                streamReader.close();
-                resourceConnection.disconnect();
-            } catch (IOException|NullPointerException e) {
-                e.printStackTrace();
-            }
+    /*
+     * Launches a task to fetch and update trailers
+     * and reviews for each movie in the parameter array
+     */
+    private void fetchResources(Movie[] movies) {
+        for (Movie movie : movies) {
+            new FetchResourcesTask(mContext).execute(movie);
         }
-        return builder.toString();
     }
 
-    void fetchResources(Movie[] movies) {
-        for (int i=0;i<movies.length;i++) {
-            new FetchResourcesTask(mFragment).execute(movies[i]);
-        }
+    /**
+     * Member interface of the FetchMoviesTask class that defines how to process
+     * the movies retrieved by it.
+     */
+    public interface delegate {
+        void processMovies(Movie[] movies);
     }
 }

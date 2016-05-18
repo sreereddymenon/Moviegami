@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,9 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
 
@@ -29,11 +25,9 @@ public class FetchResourcesTask extends AsyncTask<Movie, Void, Void> {
     private static final String API_KEY = "api_key";
 
     private Context mContext;
-    private ListFragment mFragment;
 
-    public FetchResourcesTask(ListFragment fragment) {
-        this.mFragment = fragment;
-        this.mContext = mFragment.getContext();
+    public FetchResourcesTask(Context context) {
+        this.mContext = context;
     }
 
     @Override

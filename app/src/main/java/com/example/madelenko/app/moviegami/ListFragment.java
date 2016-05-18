@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements FetchMoviesTask.delegate {
 
     private static final String QUERY_TYPE = "query type";
     public static final int POPULAR = 0;
@@ -86,7 +86,7 @@ public class ListFragment extends Fragment {
             loadResourcesFromDb(Movie.TRAILER,movie);
             loadResourcesFromDb(Movie.REVIEW,movie);
         }
-        setMovies(movies);
+        processMovies(movies);
         cursor.close();
     }
 
@@ -150,15 +150,16 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(new MovieAdapter((MovieListActivity) getActivity()));
     }
 
-    void setMovies(Movie[] movies) {
+    private void requestMovies() {
+        if (mRecyclerView.getAdapter().getItemCount() == 0) {
+            new FetchMoviesTask(this,getContext()).execute(mListType);
+        }
+    }
+
+    @Override
+    public void processMovies(Movie[] movies) {
         MovieAdapter movieAdapter = (MovieAdapter)mRecyclerView.getAdapter();
         movieAdapter.setMovies(movies);
         movieAdapter.notifyDataSetChanged();
-    }
-
-    private void requestMovies() {
-        if (mRecyclerView.getAdapter().getItemCount() == 0) {
-            new FetchMoviesTask(this).execute(mListType);
-        }
     }
 }

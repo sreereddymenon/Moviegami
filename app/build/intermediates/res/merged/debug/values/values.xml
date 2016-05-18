@@ -312,7 +312,7 @@
     <string name="review_empty_string">There are no reviews available for this movie.</string>
     <string name="reviews">Reviews</string>
     <string name="send_message">Hey! I just found this movie called %1$s.
-        You should really it out, it\'s awesome!</string>
+        You should really it out, it\'s awesome! </string>
     <string name="short_lorem">Lorem</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_movie_detail">Movie Detail</string>

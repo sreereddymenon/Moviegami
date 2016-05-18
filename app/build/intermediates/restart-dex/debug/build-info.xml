@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="armeabi-v7a,armeabi"
+    abi="x86_64"
     api-level="23"
-    density="xxhdpi"
+    density="mdpi"
     format="7"
-    timestamp="17370098513569" >
+    timestamp="23410263664972" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="6567" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="1444" />
     <task
         name="verifier"
-        duration="0" />
+        duration="61" />
 
-    <build timestamp="17339867637380" >
+    <artifact
+        location="/home/madelenko/Desktop/Moviegami/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="23410263664972" >
         <artifact
             location="/home/madelenko/Desktop/Moviegami/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="17370098513569" />
 
 </instant-run>

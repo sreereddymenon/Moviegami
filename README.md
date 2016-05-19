@@ -3,6 +3,11 @@
 Project created by me (Javier Ventajas Hernandez) as part of the Android Developer Nanodegree:
 https://www.udacity.com/course/android-developer-nanodegree--nd801
 
+![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami1.gif)
+![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami2.gif)
+![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami4.gif)
+![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami3.gif)
+
 Main features:
 
 - API usage: Used "themoviedb" to retrieve info about the movies in JSON format. Used youtube's api and android components to display the trailers.
@@ -13,8 +18,3 @@ Main features:
 - Android's Parcelable interface: Implemented android's Parcelable interface to serialize movies and pass them through different contexts.
 - Tablet UI: Used a Master-Detail flow to make tablet layout appealing. Used different resource folders to override phone layouts.
 - Action buttons: Added OnClickListeners to delegate trailer playback to UI buttons. Added a share button to send trailers and a custom message via WhatsApp.
-
-![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami1.gif)
-![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami2.gif)
-![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami4.gif)
-![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami3.gif)

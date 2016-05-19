@@ -7,6 +7,8 @@ https://www.udacity.com/course/android-developer-nanodegree--nd801
 ![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami2.gif)
 ![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami4.gif)
 ![alt tag](https://github.com/Jventajas/Moviegami/blob/master/moviegami3.gif)
+![alt tag](https://github.com/Jventajas/Moviegami/blob/master/screenshot.png)
+
 
 Main features:
 

@@ -3,6 +3,8 @@ package com.example.madelenko.app.moviegami;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -223,5 +225,13 @@ public final class Utility {
                 throw new IllegalArgumentException("Undefined resource type.");
         }
         return 0;
+    }
+
+
+    public static boolean deviceConnected(Context context) {
+        ConnectivityManager networkManager = (ConnectivityManager)context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = networkManager.getActiveNetworkInfo();
+        return info != null && info.isAvailable() && info.isConnected();
     }
 }
